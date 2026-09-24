@@ -1,9 +1,14 @@
 ---
 name: unreal-performance
 description: "Use when an Unreal Engine 5.8 project misses its frame rate or stutters: \"optimize to 60 fps\", \"we run at 38 fps\", CPU or GPU bound, game or render thread too long, hitches, traversal or shader stutter (PSO), GC spikes, camera-cut spikes, Lumen, Nanite, VSM, ray tracing, foliage, crowds or Niagara too expensive, async compute, stat unit, ProfileGPU, Unreal Insights, TraceQuery, snapshothitches, scalability and device profiles, dynamic resolution and TSR, streaming budgets, or proving a fix with before and after captures."
+metadata:
+  version: "0.1"
+  date: "2026-09-24"
 ---
 
 # Performance engineering in Unreal Engine 5.8
+
+**Version 0.1** (2026-09-24), part of Unreal Engine Expert Skills v0.1.
 
 Expert level here means milliseconds per stage, not frames per second: classify the bound with one honest capture, explain the worst frame by the thread that works rather than the one that waits, fix in the order of measured size, and prove the result with repeated runs on the same route and build, hitches judged apart from the average. The performance engineer owns measurement, diagnosis and proof; most fixes go back to the teammate who owns the content.
 

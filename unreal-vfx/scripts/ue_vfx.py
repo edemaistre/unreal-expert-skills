@@ -42,7 +42,7 @@ import math
 import os
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
-__version__ = "0.2"   # 0.2 (2026-09-24): checks from the U7 blind grade, section 2b
+__version__ = "0.1"  # Unreal Engine Expert Skills v0.1 (2026-09-24; includes the checks from the U7 blind grade, section 2b)
 
 # =============================================================================================
 # 1. OFFLINE LAYER: constants

@@ -1,18 +1,20 @@
 ---
 name: unreal-vfx
-description: Use when a UE5 task involves Niagara or Chaos destruction: a Niagara fireball, projectile trail, impact explosion, muzzle flash, spell, smoke, sparks, debris, Niagara fluids or flipbooks; "Niagara is too expensive", stat NiagaraOverview, Effect Types, pooling, Data Channels, lightweight emitters, VFX scalability; judging an effect's readability, value, colour, timing, white blowout or strobing; or a wall that shatters, geometry collection fracture, Dataflow, damage thresholds, floating chunks, debris cost, Chaos Visual Debugger.
+description: "Use when a UE5 task involves Niagara or Chaos destruction: a Niagara fireball, projectile trail, impact explosion, muzzle flash, spell, smoke, sparks, debris, Niagara fluids or flipbooks; \"Niagara is too expensive\", stat NiagaraOverview, Effect Types, pooling, Data Channels, lightweight emitters, VFX scalability; judging an effect's readability, value, colour, timing, white blowout or strobing; or a wall that shatters, geometry collection fracture, Dataflow, damage thresholds, floating chunks, debris cost, Chaos Visual Debugger."
 metadata:
-  version: "0.2"
+  version: "0.1"
   date: "2026-09-24"
 ---
 
 # Unreal VFX (Niagara, Chaos destruction, VFX critique)
 
+**Version 0.1** (2026-09-24), part of Unreal Engine Expert Skills v0.1.
+
 Expert level means an effect that tells the player the truth (where it hurts, when it is over), costs what its gameplay class allows across the whole world, and is proven by per-thread numbers on the target core count plus captures scored against a written rubric. Python cannot author Niagara emitters or modules (5.8 API): the agent works through templates with a User parameter contract, Material Instances, Effect Types and Dataflow recipes, and escalates the few graph edits as precise GUI requests.
 
 **REQUIRED BACKGROUND:** unreal-expert (channels, review loop, 5.8 traps).
 
-**Status (2026-09-24, v0.2):** Unreal is not installed. Offline checks pass (`python3 tests/code/unreal-vfx/run_all.py --offline`); every in-editor snippet is **not yet run in Unreal**; `job_00_vfx_probe.py` answers the `[verify]` names.
+**Status (2026-09-24):** Unreal is not installed. Offline checks pass (`python3 tests/code/unreal-vfx/run_all.py --offline`); every in-editor snippet is **not yet run in Unreal**; `job_00_vfx_probe.py` answers the `[verify]` names.
 
 ## Stance (the expert delta)
 

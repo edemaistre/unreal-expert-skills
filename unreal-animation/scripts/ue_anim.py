@@ -45,7 +45,7 @@ import shutil
 import time
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
-__version__ = "0.2"  # Unreal Engine Expert Skills v0.2 (2026-09-24 refactor after the U5 blind grade)
+__version__ = "0.1"  # Unreal Engine Expert Skills v0.1 (2026-09-24; includes the refactor after the U5 blind grade)
 
 # =============================================================================================
 # 1. OFFLINE LAYER: constants (each with its source)

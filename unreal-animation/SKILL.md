@@ -1,12 +1,14 @@
 ---
 name: unreal-animation
-description: 'Use when a UE5 task involves characters in motion: "import FBX from Maya" with a skeleton, "retarget animations", IK Rig, IK Retargeter, feet sinking or floating after retarget, mocap cleanup, Motion Matching, Pose Search, Choosers, GASP, state machine vs motion matching, root motion, offset root bone, foot IK, Control Rig, Animation Blueprint cost, "animation is expensive", budget allocator, URO, MetaHuman LODs, ML Deformer, cloth.'
+description: "Use when a UE5 task involves characters in motion: \"import FBX from Maya\" with a skeleton, \"retarget animations\", IK Rig, IK Retargeter, feet sinking or floating after retarget, mocap cleanup, Motion Matching, Pose Search, Choosers, GASP, state machine vs motion matching, root motion, offset root bone, foot IK, Control Rig, Animation Blueprint cost, \"animation is expensive\", budget allocator, URO, MetaHuman LODs, ML Deformer, cloth."
 metadata:
-  version: "0.2"
+  version: "0.1"
   date: "2026-09-24"
 ---
 
 # Unreal animation (technical animator)
+
+**Version 0.1** (2026-09-24), part of Unreal Engine Expert Skills v0.1.
 
 Expert level means contact that holds on every clip the game plays, locomotion authored against the movement model that changes category on the input frame, animation that costs a measured number of milliseconds on the target, and clean data at the source. The agent works through data and templates: it scripts assets, IK Rigs, retargeters, databases and settings, duplicates Epic's AnimBPs instead of drawing graphs, measures contact numerically, then looks at frames.
 

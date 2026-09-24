@@ -2,13 +2,13 @@
 name: unreal-expert
 description: "Use when an agent drives Unreal Engine 5.8 on a Mac for any task: Editor Python (the unreal module), headless UnrealEditor-Cmd -run=pythonscript jobs, Epic's Unreal MCP server, the Remote Control API, console commands and cvars; when a script breaks on 5.8 (EditorLevelLibrary, Remote Control calls refused, Substrate materials black, MRQ presets); when a level, material, shot or build must be judged by numbers and a screenshot before it is called done; or when a brief must go to the right unreal-* specialist."
 metadata:
-  version: "0.2"
+  version: "0.1"
   date: "2026-09-24"
 ---
 
 # Unreal expert (technical director and agent protocol)
 
-**Version 0.2** (2026-09-24, refactor after the first blind test), part of Unreal Engine Expert Skills.
+**Version 0.1** (2026-09-24), part of Unreal Engine Expert Skills v0.1.
 
 Expert Unreal work is a loop run against numbers: set the budget, build one stage, measure it, look at it, fix it, then advance. An agent without a mouse gets there by choosing the right channel for each action, working like the Details panel (one transaction, explicit saves), and never trusting its own eyes alone. This skill is the protocol, the shared toolkit in `scripts/`, and the map to the team. Target: UE 5.8 on macOS Apple Silicon.
 

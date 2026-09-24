@@ -1,15 +1,20 @@
 ---
 name: unreal-lighting-rendering
 description: "Use when lighting or rendering in Unreal Engine 5.8: physical light units and exposure (EV100, lux, lumens), Lumen GI and reflections, MegaLights, virtual shadow maps, sky, fog and clouds, post process and color grading, the path tracer, or Movie Render Graph stills. Triggers: \"Lumen is noisy\", \"MegaLights noise\", \"the interior is too dark\", \"light leaks\", neon signs, a night or dusk scene, \"fireflies\", \"path tracer vs Lumen\", \"render a still\", EXR settings."
+metadata:
+  version: "0.1"
+  date: "2026-09-24"
 ---
 
 # Lighting and rendering in Unreal Engine 5.8
+
+**Version 0.1** (2026-09-24), part of Unreal Engine Expert Skills v0.1.
 
 Expert lighting in Unreal is a calibrated camera, physical light values, and a renderer that sees the same scene you do; everything else is art direction layered on top and listed as such. Each step is proved with a representation view and a number before the lit image is trusted; noise is fixed in the system that owns it.
 
 **REQUIRED BACKGROUND:** unreal-expert (channels, review loop, 5.8 traps).
 
-**Status (2026-09-24, v2):** `scripts/ue_light.py` is **not yet run in Unreal**; 200 pure, 65 editor-layer and 20 procedure checks pass offline against a fake `unreal`. First editor run: `tests/code/unreal-lighting-rendering/job_00_probe_lighting.py`.
+**Status (2026-09-24):** `scripts/ue_light.py` is **not yet run in Unreal**; 200 pure, 65 editor-layer and 20 procedure checks pass offline against a fake `unreal`. First editor run: `tests/code/unreal-lighting-rendering/job_00_probe_lighting.py`.
 
 ## Stance (the expert delta)
 

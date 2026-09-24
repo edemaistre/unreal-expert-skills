@@ -1,12 +1,14 @@
 ---
 name: unreal-materials
-description: Use when a UE5 task involves materials or textures: a master material and instances for a kit, Substrate or legacy, Blendable vs Adaptive GBuffer, glass, emissive screens, decals, edge wear and dirt, landscape layers and RVT, toon or cel shading, "too many shaders" or shader permutations, static switches, usage flags, texture compression (BC7, normal maps, ORM packing, sRGB), texture memory, or "is this material expensive".
+description: "Use when a UE5 task involves materials or textures: a master material and instances for a kit, Substrate or legacy, Blendable vs Adaptive GBuffer, glass, emissive screens, decals, edge wear and dirt, landscape layers and RVT, toon or cel shading, \"too many shaders\" or shader permutations, static switches, usage flags, texture compression (BC7, normal maps, ORM packing, sRGB), texture memory, or \"is this material expensive\"."
 metadata:
-  version: "0.2"
+  version: "0.1"
   date: "2026-09-24"
 ---
 
 # Unreal materials (master materials, Substrate, textures, shader cost)
+
+**Version 0.1** (2026-09-24), part of Unreal Engine Expert Skills v0.1.
 
 Expert level means a few master materials whose instances cover the kit, a known and budgeted permutation count, cost proven in milliseconds on a fixed camera, and physically plausible values before any artistic push. The graph is authored once (scripted build or template); everything else is instances, Custom Primitive Data and textures that follow a role policy. Never trust the instruction count or a pretty preview.
 

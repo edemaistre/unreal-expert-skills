@@ -27,6 +27,9 @@ named <job_name>__<YYYYmmdd-HHMMSS>.json (never overwritten): {"job_name", "sequ
 with ue_cine.latest_manifests(dir). The job and graph handed to callbacks are duplicates, so
 nothing done here leaks into the shared queue or graph assets (mrq-cli).
 """
+
+__version__ = "0.1"  # Unreal Engine Expert Skills v0.1 (2026-09-24)
+
 import json
 import os
 import time

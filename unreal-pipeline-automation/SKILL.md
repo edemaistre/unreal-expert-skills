@@ -1,12 +1,14 @@
 ---
 name: unreal-pipeline-automation
-description: Use when importing FBX, USD, OBJ or glTF from Maya, ZBrush or Blender into Unreal Engine 5.8 in bulk or reimporting changed files, writing Editor Python tools, Interchange pipelines or import presets, enforcing naming conventions, assigning material instances by script, setting Nanite, collision and LODs per asset class, writing data validators or automation tests, fixing redirectors, or cooking and packaging from the command line (BuildCookRun, RunUAT, CI, Perforce). Also when a scripted import ignores its settings or names, a Python validator never runs, or a Mac build will not package.
+description: "Use when importing FBX, USD, OBJ or glTF from Maya, ZBrush or Blender into Unreal Engine 5.8 in bulk or reimporting changed files, writing Editor Python tools, Interchange pipelines or import presets, enforcing naming conventions, assigning material instances by script, setting Nanite, collision and LODs per asset class, writing data validators or automation tests, fixing redirectors, or cooking and packaging from the command line (BuildCookRun, RunUAT, CI, Perforce). Also when a scripted import ignores its settings or names, a Python validator never runs, or a Mac build will not package."
 metadata:
-  version: "0.2"
+  version: "0.1"
   date: "2026-09-24"
 ---
 
 # Unreal pipeline automation (pipeline and tools TD)
+
+**Version 0.1** (2026-09-24), part of Unreal Engine Expert Skills v0.1.
 
 Expert pipeline work in Unreal is policy as data plus proof: the import policy is a versioned pipeline asset, names come from a plan, every rule that matters is a validator that also guards human edits, and a build counts once it cooked with fatal validation and booted. Bulk work runs headless; anything visual goes to a screenshot someone actually looks at.
 

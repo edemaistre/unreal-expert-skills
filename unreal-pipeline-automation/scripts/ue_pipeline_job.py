@@ -20,6 +20,9 @@ Actions (args["action"]):
 Never point a saving job at a project an open editor has loaded (write lock): run the same
 action in that editor through the MCP toolset or ue_remote.PythonRemote instead.
 """
+
+__version__ = "0.1"  # Unreal Engine Expert Skills v0.1 (2026-09-24)
+
 import json
 import os
 import sys

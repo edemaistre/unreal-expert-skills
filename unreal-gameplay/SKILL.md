@@ -1,18 +1,20 @@
 ---
 name: unreal-gameplay
-description: Use when building or debugging UE5 gameplay: a character with double jump or dash, abilities with cooldowns, enemy AI that patrols, chases and attacks, a health bar or HUD; choosing Blueprint vs C++, GAS or not, StateTree vs Behavior Tree, EQS or Mass; setting up Enhanced Input, Common UI or UMG; replication, RepNotify, save games, World Partition state; "Blueprints are slow", Tick, casts and hard references; "ability won't activate", "enemy ignores the player"; or writing automated gameplay tests with injected input.
+description: "Use when building or debugging UE5 gameplay: a character with double jump or dash, abilities with cooldowns, enemy AI that patrols, chases and attacks, a health bar or HUD; choosing Blueprint vs C++, GAS or not, StateTree vs Behavior Tree, EQS or Mass; setting up Enhanced Input, Common UI or UMG; replication, RepNotify, save games, World Partition state; \"Blueprints are slow\", Tick, casts and hard references; \"ability won't activate\", \"enemy ignores the player\"; or writing automated gameplay tests with injected input."
 metadata:
-  version: "0.2"
+  version: "0.1"
   date: "2026-09-24"
 ---
 
 # Unreal Gameplay (framework, Blueprint vs C++, input, GAS, AI, UI)
 
+**Version 0.1** (2026-09-24), part of Unreal Engine Expert Skills v0.1.
+
 Expert level means every piece of data lives in the class whose lifetime and network presence match it, logic is text (C++ or small functions) under data-only Blueprints and data assets that Python configures, and every mechanic is proven in isolation (injected input, debug commands, traces) before it is judged in play. The agent does not pretend to author graphs it cannot reach: it states which surface each piece lands on and escalates only the residue.
 
 **REQUIRED BACKGROUND:** unreal-expert (channels, review loop, 5.8 traps).
 
-**Status (2026-09-24, v0.2):** Unreal is not installed. The offline layer passed (`python3 tests/code/unreal-gameplay/run_all.py --offline`). Every in-editor snippet and generated C++ file is **not yet run in Unreal** (C++ not yet compiled); `job_00_gameplay_probe.py` answers the `[verify]` names.
+**Status (2026-09-24):** Unreal is not installed. The offline layer passed (`python3 tests/code/unreal-gameplay/run_all.py --offline`). Every in-editor snippet and generated C++ file is **not yet run in Unreal** (C++ not yet compiled); `job_00_gameplay_probe.py` answers the `[verify]` names.
 
 ## Stance (the expert delta)
 

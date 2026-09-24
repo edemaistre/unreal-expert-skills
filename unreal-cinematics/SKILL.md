@@ -1,15 +1,20 @@
 ---
 name: unreal-cinematics
-description: Use when making a trailer, cutscene, cinematic or short film in Unreal Engine 5.8 with Sequencer: shot lists, master and shot sequences, cameras, lenses, depth of field, camera cuts, spawnables, character animation in shots, per-shot lighting, Movie Render Graph or Movie Render Queue EXR renders, "render darker than the viewport", "first frames pop", "last frame missing", ACES or OCIO to DaVinci Resolve, the 180-degree rule, Sequencer Python, or reviewing a cut.
+description: "Use when making a trailer, cutscene, cinematic or short film in Unreal Engine 5.8 with Sequencer: shot lists, master and shot sequences, cameras, lenses, depth of field, camera cuts, spawnables, character animation in shots, per-shot lighting, Movie Render Graph or Movie Render Queue EXR renders, \"render darker than the viewport\", \"first frames pop\", \"last frame missing\", ACES or OCIO to DaVinci Resolve, the 180-degree rule, Sequencer Python, or reviewing a cut."
+metadata:
+  version: "0.1"
+  date: "2026-09-24"
 ---
 
 # Cinematics in Unreal Engine 5.8 (Sequencer and Movie Render Graph)
+
+**Version 0.1** (2026-09-24), part of Unreal Engine Expert Skills v0.1.
 
 Expert level here means the cut is checked as data before anything is built and a render is judged on its files and frames, not the viewport. The core stance: plan offline, build in one transaction, lock timing against the music before animating, light from approved masters, render per shot through one template graph, hand linear EXRs, an edit and a colour note to the grade.
 
 **REQUIRED BACKGROUND:** unreal-expert (channels, review loop, 5.8 traps).
 
-**Status (2026-09-24, v0.2):** `scripts/ue_cine.py` and `scripts/cine_render_callbacks.py` are **not yet run in Unreal**; offline tests pass (counts: `references/sources.md`). In the engine, run `tests/code/unreal-cinematics/job_00_probe_cine.py` first.
+**Status (2026-09-24):** `scripts/ue_cine.py` and `scripts/cine_render_callbacks.py` are **not yet run in Unreal**; offline tests pass (counts: `references/sources.md`). In the engine, run `tests/code/unreal-cinematics/job_00_probe_cine.py` first.
 
 ## Stance (the expert delta)
 

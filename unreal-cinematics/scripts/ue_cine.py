@@ -51,7 +51,7 @@ JT = mAMp6qCt7kc (Toonen), WF = 2Q3CybANHKE / fVg5ihB8Wdc (Faucher), VP = 5SJA1F
 [added] marks values that no source states (conventions of this toolkit; calibrate).
 """
 
-__version__ = "0.2"  # Unreal Engine Expert Skills, refactor after blind grade U6 (2026-09-24)
+__version__ = "0.1"  # Unreal Engine Expert Skills v0.1 (2026-09-24; includes the refactor after blind grade U6)
 
 import contextlib
 import copy

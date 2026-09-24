@@ -14,6 +14,9 @@ image_checks on every frame (an agent once approved an all-white frame, lDf_y-YP
 args: meshes (content paths), out_dir (abs, no spaces), level (lookdev level from
 unreal-lighting-rendering; None = current level), width 1280, height 720, fov 40, settle 0.5 s.
 """
+
+__version__ = "0.1"  # Unreal Engine Expert Skills v0.1 (2026-09-24)
+
 import json
 import os
 import sys

@@ -63,7 +63,7 @@ import struct
 import zlib
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
-__version__ = "0.2"  # Unreal Engine Expert Skills, refactor pass (2026-09-24)
+__version__ = "0.1"  # Unreal Engine Expert Skills v0.1 (2026-09-24; includes the refactor pass)
 
 # =============================================================================================
 # 0. Findings helper

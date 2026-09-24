@@ -43,7 +43,7 @@ if _HERE not in sys.path:
 
 import ue_gameplay_cpp as cpp_templates  # noqa: E402
 
-__version__ = "0.2"
+__version__ = "0.1"  # Unreal Engine Expert Skills v0.1 (2026-09-24)
 
 # =============================================================================================
 # 1. OFFLINE: where data lives

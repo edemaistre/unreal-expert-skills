@@ -61,7 +61,7 @@ ARG Argyriou lighting at scale. [added] = this skill's own addition.
 
 from __future__ import annotations
 
-__version__ = "0.2"  # Unreal Engine Expert Skills v0.1, refactor pass (2026-09-24)
+__version__ = "0.1"  # Unreal Engine Expert Skills v0.1 (2026-09-24; includes the refactor pass)
 
 import bisect
 import csv

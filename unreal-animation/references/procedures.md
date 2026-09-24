@@ -10,7 +10,7 @@ import ue_anim as A          # this skill
 import ue_run, ue_review     # lead toolkit: jobs, captures
 ```
 
-Status legend: **offline-tested** (passed `tests/code/unreal-animation/test_anim_offline.py`, 30 tests, 2026-09-24, v0.2), **not yet run in Unreal** (engine not installed; `[verify]` names resolved at run time by candidates, misses in `A.MISSES`).
+Status legend: **offline-tested** (passed `tests/code/unreal-animation/test_anim_offline.py`, 30 tests, 2026-09-24, v0.1), **not yet run in Unreal** (engine not installed; `[verify]` names resolved at run time by candidates, misses in `A.MISSES`).
 
 Headless runs from the agent side (system python3):
 

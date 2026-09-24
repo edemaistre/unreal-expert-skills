@@ -36,7 +36,7 @@ UE_RESULT line), ue_remote (live editor), ue_review (screenshot, render_still, i
 ue_audit (generic asset audit and verdict), ue_stat (stat, CSV and trace parsers, budget_check).
 """
 
-__version__ = "0.2"  # Unreal Engine Expert Skills v0.2 (2026-09-24, refactor after blind grade U2)
+__version__ = "0.1"  # Unreal Engine Expert Skills v0.1 (2026-09-24; includes the refactor after blind grade U2)
 
 import json
 import math

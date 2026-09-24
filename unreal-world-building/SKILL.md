@@ -1,11 +1,14 @@
 ---
 name: unreal-world-building
 description: "Use when building or fixing an Unreal Engine 5 level or open world: World Partition, OFPA, Data Layers, Level Instances, Packed Level Actors, HLOD, landscape size, heightmap import or clipping, edit layers, terrain material rules, foliage and grass, a PCG forest or rock scatter, runtime GPU grass, Nanite and tessellation choices, modular kits, a river or village, streaming pop-in, cells not loading, landscape black spots, \"PCG shows nothing in the editor\", or a world too heavy to hand to lighting."
+metadata:
+  version: "0.1"
+  date: "2026-09-24"
 ---
 
 # Unreal world building (levels, open worlds, landscape, PCG)
 
-**Version 0.2** (2026-09-24, refactor after the U1 blind grade), Unreal Engine Expert Skills, target UE 5.8 on macOS Apple Silicon.
+**Version 0.1** (2026-09-24), part of Unreal Engine Expert Skills v0.1. Target: UE 5.8 on macOS Apple Silicon.
 
 Expert level here means a world sized by rule, placed by tier of importance, streamed and budgeted from the first map, and changed by script region by region, never by hand-selecting thousands of actors. The environment artist decides what stays manual, what is baked and what is generated at runtime, then proves every choice with a count, a trace or a screenshot.
 
