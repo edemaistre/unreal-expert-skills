@@ -44,7 +44,7 @@ Per-source expert notes live in the project's `notes/` (never edited to fit this
 
 ## Project observations
 
-- `ue_env.preflight()` on this Mac, 2026-09-24: Apple M5 Max, macOS 26.5.1, 48 GB, Xcode 26.6 (reported "unlisted" against Epic's 5.8 window). Unreal Engine not installed (`ue_env.find_engine()` returns None).
+- `ue_env.preflight()` on this Mac, 2026-09-24: Apple silicon, macOS 26.5.1, Xcode 26.6 (reported "unlisted" against Epic's 5.8 window). Unreal Engine not installed (`ue_env.find_engine()` returns None).
 
 ## Revision history
 - 2026-09-24, v0.2 refactor after the first blind test (`tests/grading/SUMMARY.md`, `U1_grade.md` to `U9_grade.md`): report protocol (engine call next to every toolkit call, Verified and Assumed lists) in SKILL.md and the new `references/toolkit-map.md`; `ue_run` 0.2 (pass only on the boot's job-id `UE_RESULT` envelope, recorded Asset Registry wait and `wait_for_registry()`, `-ScriptErrorsAreFatal` in editor mode, write-lock check, `strict`), tested in `test_ue_run_protocol_offline.py`; lead items from the "missing from both" lists added to SKILL.md, `ue-5.8-traps.md` and `python-reliability.md` (source control and OFPA submits, generated PCG content, headless source control, `-cookincremental`, cook validation stats, World Partition Insights, sampling profilers, exposure-range warning, Game Overrides, `-notexturestreaming`, farm manager, ScopedSlowTask, raw screenshot loop, MacBook numpad, domain version traps). v0.1 kept in `skills/_versions/unreal-expert v1 2026-09-24/`.

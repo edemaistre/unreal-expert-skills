@@ -1,6 +1,6 @@
 # Expert notes: pipeline automation in Unreal Engine 5.8
 
-The judgment behind SKILL.md, by source, with timestamps into the videos ([hh:mm:ss]) or the doc section. [added] = this skill's own rule or inference; [verify] = a name or behaviour no saved 5.8 page states. Nothing here has been run in Unreal 5.8 yet (not installed on 2026-09-24). Per-source notes are in the project's `notes/pipeline/`, `notes/python/`, `notes/editor-tools/` and `notes/editor/` (never edited to fit this skill); digests `_digest_pipeline_testing_build.md` and `_digest_python_mcp_remote.md`; version facts from `sources/unreal-version-deltas.md`.
+The judgment behind SKILL.md, by source, with timestamps into the videos ([hh:mm:ss]) or the doc section. [added] = this skill's own rule or inference; [not yet run] = a name or behaviour no 5.8.3 run has confirmed. Since 2026-10-21 the import half ran on 5.8.3 (procedures.md, status line); facts from those runs are marked "run on 5.8.3". Per-source notes are in the project's `notes/pipeline/`, `notes/python/`, `notes/editor-tools/` and `notes/editor/` (never edited to fit this skill); digests `_digest_pipeline_testing_build.md` and `_digest_python_mcp_remote.md`; version facts from `sources/unreal-version-deltas.md`.
 
 ## Where experts disagree, and what decides
 
@@ -52,7 +52,7 @@ The judgment behind SKILL.md, by source, with timestamps into the videos ([hh:mm
 - Adopting mid-project: grind through existing errors or allow-list them so only new ones fail the build [00:36:59] to [00:38:07]. Build failures are thanks, not blame [00:40:17].
 - Any error log fails an automation test; a smoke test needs a clean console and a 0.5 to 1 s settle [01:04:47], [01:03:07]. Follow each smoke failure with a fire test, usually a validator; fire tests should fail more often than smoke tests over time [01:17:11], [01:18:48].
 - See each test fail for the right reason before fixing [01:46:04]; review AI-written tests ("put this in claude.md and code review what it produces") [02:02:02], [02:07:43].
-- Blueprint validators were broken in 5.4 to 5.6 with a fix promised for 5.7 [00:27:43]: Python validators sidestep it [verify 5.8].
+- Blueprint validators were broken in 5.4 to 5.6 with a fix promised for 5.7 [00:27:43]: Python validators sidestep it [not yet run: 5.8].
 - Performance tests advisory, never pass or fail at 29.9 fps [01:29:38]; tier cadence push, build, weekend, parallelize long suites [01:31:46], [01:55:36]; push when you can watch for about an hour [01:56:41].
 
 ## Zack Hamilton, Riot Games (3ftOkc-cA7U, Unreal Fest Gold Coast 2024)
@@ -70,7 +70,7 @@ The judgment behind SKILL.md, by source, with timestamps into the videos ([hh:mm
 
 ## Josh Adams, Epic (uxdEt9XXKb8, Unreal Fest Seattle 2024, 5.4 to 5.5)
 
-- "Xcode is responsible for making the final app" [00:04:22]; "whether or not you edit in Xcode, we still need to use Xcode to actually make the apps" [00:03:33]. That a content-only (Blueprint-only) project therefore needs full Xcode to package is the notes' inference, not his words [verify with a content-only BuildCookRun].
+- "Xcode is responsible for making the final app" [00:04:22]; "whether or not you edit in Xcode, we still need to use Xcode to actually make the apps" [00:03:33]. That a content-only (Blueprint-only) project therefore needs full Xcode to package is the notes' inference, not his words [not yet run: with a content-only BuildCookRun].
 - The editor's Cook command only cooks; staged data is what reaches the app [00:19:14]; "skipcook is not the same thing as not having cook" [00:20:20]; `-package` on Apple copies the finished `.app`, `-distribution` makes an `.xcarchive` and dSYMs, `-archive` copies the result elsewhere [00:19:48] to [00:22:31].
 - Build machines sign with a `.p8` key checked into source control, smallest sufficient role [00:13:34], [00:14:06]; regenerate project files after signing, asset or framework changes when building from Xcode (command-line builds regenerate) [00:28:26].
 - Quarantine spreads through zips sent over chat: remove it before unzipping [00:16:13]. UBA helpers need the exact same Xcode build number [00:44:22].

@@ -1,11 +1,11 @@
 # GUI paths: unreal-world-building (for a computer-use agent or a human)
 
-The same procedures as `procedures.md`, through the editor. UE 5.8 names; macOS uses Cmd where the docs say Ctrl [verify]. 5.6 redesigned the viewport toolbars (`ToolMenusViewportToolbars 0` restores the old ones) and hid the level editor Settings menu (`LevelEditorToolbarSettings 1`). Items marked [verify] come from older screenshots.
+The same procedures as `procedures.md`, through the editor. UE 5.8 names; macOS uses Cmd where the docs say Ctrl [not yet run]. 5.6 redesigned the viewport toolbars (`ToolMenusViewportToolbars 0` restores the old ones) and hid the level editor Settings menu (`LevelEditorToolbarSettings 1`). Items marked [not yet run] come from older screenshots.
 
 ## Map and World Partition (P2)
 - New map: File > New Level > Open World (or Empty Open World).
 - Convert: Tools > Convert Level.
-- Grid: Window > World Settings > World Partition Setup (Grid Name, Cell Size, Loading Range, Preview Grids). New 5.8 maps use the runtime hash with partitions, so the fields may sit under a partition entry [verify].
+- Grid: Window > World Settings > World Partition Setup (Grid Name, Cell Size, Loading Range, Preview Grids). New 5.8 maps use the runtime hash with partitions, so the fields may sit under a partition entry [not yet run].
 - Regions: Window > World Partition > World Partition Editor; drag a box, right-click > Load Region from Selection; Shift+drag snaps to the grid, double-click moves the camera, Shift+double-click starts PIE there, Ctrl+double-click loads a region.
 - World Bookmarks (5.6): Window > World Partition > World Bookmarks (camera, loaded regions, Data Layer states).
 - Minimap: Build > World Partition > Build Minimap (needs Project Settings > Rendering > Enable virtual texture support).
@@ -34,7 +34,7 @@ The same procedures as `procedures.md`, through the editor. UE 5.8 names; macOS 
 ## Village and kits (P7)
 - Snapping: viewport toolbar grid snap to the kit grid; local-space gizmo for rotated runs.
 - Level Instance or Packed Level Actor: select actors > right-click > Level > Create Level Instance / Create Packed Level Actor (External Actors on, Pivot Center Min Z). Edit: right-click > Level > Edit, then Commit (Esc twice discards). Break: right-click > Level > Break (save the map version first).
-- PCG Data Asset from a Level Instance: Content Browser > right-click the level > asset action submenu (entry name unreadable in the talk [verify]).
+- PCG Data Asset from a Level Instance: Content Browser > right-click the level > asset action submenu (entry name unreadable in the talk [not yet run]).
 - Tags: actor Details > Actor > Tags (use a tagging widget with a fixed vocabulary, never free typing).
 - Paths: landscape splines (Landscape mode > Manage > Splines, Ctrl+click to add points) on the Splines edit layer, following the points from `village_paths`; or the Recursive Pathfinding subgraph in a PCG graph.
 - Fences: a Blueprint with a spline and a PCG component; the grammar string and module table as its graph parameters.
@@ -56,14 +56,14 @@ The same procedures as `procedures.md`, through the editor. UE 5.8 names; macOS 
 - Layer filter: Attribute Filter node Details > Warn on Data Missing Attribute (tick it), Use Constant Threshold, Target Attribute = the layer name without `$`.
 - Spawner collision: Static Mesh Spawner > mesh entry > Descriptor > Collision (off by default; on for trunks and boulders).
 - Grass mask: Landscape Grass Type assets with no meshes, painted through the landscape material; Generate Grass Maps node in the graph.
-- Teleports: add a PCG Generation Source component (class name [verify]) to the teleport target actor, next to its World Partition Streaming Source.
+- Teleports: add a PCG Generation Source component (class name [not yet run]) to the teleport target actor, next to its World Partition Streaming Source.
 - Runtime and partition settings: select PCGWorldActor in the Outliner: Partition Grid Size, Treat Editor Viewport as Generation Source, Enable World Partition Generation Sources, landscape cache.
 - GPU: node Details > Execute on GPU, Skip Readback to CPU; Get Landscape Data > Get Height Only; custom HLSL: Window > Source Editor.
 - Editor Mode (5.7): mode dropdown > PCG > Draw Spline, Draw Surface, Paint, Volume.
 - Builder: Build menu PCG entries and the Builder Settings asset (5.5) [verify labels].
 
 ## Review (P13)
-- Screenshots: console `HighResShot 1920x1080` [verify], or the viewport menu > High Resolution Screenshot.
+- Screenshots: console `HighResShot 1920x1080` [not yet run], or the viewport menu > High Resolution Screenshot.
 - Stats: console `stat unit`, `stat gpu`; Trace status-bar widget > start trace; Unreal Insights for the file.
 - Game view: G hides editor icons; F11 full-screen viewport.
 

@@ -4,7 +4,7 @@ Principles and judgment by source, with timestamps. Distilled from `notes/world-
 
 ## Sam Deiter, Epic, "Building Open Worlds in UE5" (EEf07ggFWRw, UE 5.1)
 - Use the Open World template; hand-built setups miss checkboxes with cascading bugs [00:20:40]; the tools are a set (WP, OFPA, HLOD, Level Instancing, Data Layers, VSM, VT, Nanite) [00:35:59].
-- Grid values are centimetres: 25,600 = 256 m cells, 76,800 = 768 m range in the template [00:14:57] [00:15:32].
+- Grid values are centimetres: 25,600 = 256 m cells, 76,800 = 768 m range in the 5.1 template [00:14:57] [00:15:32]. The 5.8.3 Open World template reads cell 25,200 cm and range 76,800 cm (run on 5.8.3).
 - Streaming Source component where the player teleports, target grid named to match [00:16:39]-[00:19:31].
 - Level Instance for content that changes with gameplay, Packed Level Actor to render static sets fast (37 rocks collapsed to ISM copies) [00:28:50]-[00:34:17].
 - One HLOD layer per content family (foliage, roofs, walls, river stones); per layer decide material cost ("do we need a roughness map") [00:41:13] [00:42:18].

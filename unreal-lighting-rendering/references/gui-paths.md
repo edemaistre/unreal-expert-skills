@@ -1,6 +1,6 @@
 # GUI paths (for a computer-use agent or a human)
 
-The same procedures as `procedures.md`, through menus. UE 5.8 on macOS: the 5.6 viewport toolbar redesign moved the view mode, exposure and show menus (`ToolMenusViewportToolbars 0` restores the old toolbars); Ctrl shortcuts in Epic's docs usually map to Cmd on Mac [verify]. Paths come from the 5.8 docs quoted in the notes; wording may differ slightly in the installed editor [verify].
+The same procedures as `procedures.md`, through menus. UE 5.8 on macOS: the 5.6 viewport toolbar redesign moved the view mode, exposure and show menus (`ToolMenusViewportToolbars 0` restores the old toolbars); Ctrl shortcuts in Epic's docs usually map to Cmd on Mac [not yet run]. Paths come from the 5.8 docs quoted in the notes; wording may differ slightly in the installed editor [not yet run: GUI paths were not walked in 5.8.3].
 
 ## Project settings (P1)
 - Edit > Project Settings > Engine > Rendering:
@@ -47,7 +47,7 @@ The same procedures as `procedures.md`, through menus. UE 5.8 on macOS: the 5.6 
 - Static Mesh Editor > Build Settings > Max Lumen Mesh Cards, Distance Field Resolution Scale, Two-Sided Distance Field Generation; Nanite Settings > Fallback Target = Relative Error, Fallback Relative Error, Apply Changes.
 - Component Details: Emissive Light Source (small emissive meshes in the Lumen Scene), Visible in Ray Tracing, Affect Distance Field Lighting, Shadow Cache Invalidation Behavior, World Position Offset Disable Distance.
 - Albedo: viewport view mode > Buffer Visualization > Base Color (read it next to the chart of the calibrator); material instance Details > Base Color parameters.
-- Chrome ball and chart: hold backslash in the viewport for the calibration chart [verify in 5.8], or place `/Engine/EditorMeshes/ColorCalibrator/SM_ColorCalibrator`.
+- Chrome ball and chart: hold backslash in the viewport for the calibration chart [not yet run in 5.8], or place `/Engine/EditorMeshes/ColorCalibrator/SM_ColorCalibrator`.
 
 ## Path tracer and Movie Render Graph (P13)
 - Viewport view mode > Path Tracing; PPV Details > Path Tracing: Max Bounces, Samples Per Pixel (viewport only), Max Path Intensity, Emissive Materials (the double-count A/B), Reference Depth of Field, Reference Atmosphere, Denoiser, Lighting Components (untick Indirect Emissive when fixtures carry real lights).

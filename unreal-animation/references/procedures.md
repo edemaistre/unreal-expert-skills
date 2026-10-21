@@ -10,7 +10,7 @@ import ue_anim as A          # this skill
 import ue_run, ue_review     # lead toolkit: jobs, captures
 ```
 
-Status legend: **offline-tested** (passed `tests/code/unreal-animation/test_anim_offline.py`, 30 tests, 2026-09-24, v0.1), **not yet run in Unreal** (engine not installed; `[verify]` names resolved at run time by candidates, misses in `A.MISSES`).
+Status legend: **offline-tested** (`tests/code/unreal-animation/test_anim_offline.py` and `test_anim_v02_offline.py`), **run on 5.8.3** (2026-10-21, macOS: `live_mcp_recipes.py` recipes in its own editor, then the five `job_*.py` jobs headless on engine content), **not yet run** (needs content or features not exercised: Game Animation Sample, Lyra, MetaHuman, cloth, ML Deformer, captures). `[verify]` stays only on those; names are still resolved at run time by candidates, misses in `A.MISSES`.
 
 Headless runs from the agent side (system python3):
 
@@ -36,7 +36,7 @@ res = ue_run.run_python(UPROJECT, TESTS + "/job_00_anim_probe.py")
 ```
 
 Also set Project Settings > Plugins > Python > Developer Mode once: it writes `Intermediate/PythonStub/unreal.py`, the most reliable list of exposed names (version deltas, Python section).
-Test: `tests/code/unreal-animation/job_00_anim_probe.py`. Status: not yet run in Unreal.
+Test: `tests/code/unreal-animation/job_00_anim_probe.py`. Status: run on 5.8.3, no misses; `SkeletonModifier`, `SkinWeightModifier`, `BlueprintGraphEditor` and `IKRetargetBatchOperation.run_batch_retarget` present; the console names `a.Budget.BudgetMs` and `a.animnode.IKRig.Enable` were not found (Animation Budget Allocator plugin off).
 
 ## P1. Import a character and its animations (Maya, Blender)
 
@@ -47,13 +47,13 @@ Contract expected from maya-rigging (`game_skeleton_check`): one root at the ori
 r = A.import_character("/abs/in/SK_Hero.fbx", "/Game/Characters/Hero")        # new <Mesh>_Skeleton
 skel = "/Game/Characters/Hero/SK_Hero_Skeleton"
 clips = A.import_animations(["/abs/in/Hero_Walk_Loop_F.fbx", "/abs/in/Hero_Run_Loop_F.fbx"],
-                            "/Game/Characters/Hero/Anims", skel, sample_rate=None)  # None = 30 Hz bake
+                            "/Game/Characters/Hero/Anims", skel, sample_rate=None)  # None = source rate
 assert all(c["skeleton_ok"] for c in clips), clips   # a clip on a stray skeleton will not play
 ```
 
-What it sets (Interchange 5.8 names, Python paths `[verify]`): Import Only Animations, Skeleton, Import Skeletal Meshes, Import Morph Targets, Create Physics Asset, Import Animations, Import Bone Tracks, Use 30Hz to Bake Bone Animation or Custom Bone Animation Sample Rate, do not import all-zero curves, delete existing curves on reimport. It duplicates Epic's default assets pipeline to `/Game/_Agent/Pipelines/` and points `override_pipelines` at it; if Interchange fails it falls back to `AssetImportTask` with `FbxImportUI` (legacy names). Use T0 As Ref Pose and Update Skeleton Reference Pose change shared data: only on purpose (import options doc).
+What it sets (Interchange; Python names run on 5.8.3, for example `use30_hz_to_bake_bone_animation` and `custom_bone_animation_sample_rate`, 0 = find the best rate): Import Only Animations, Skeleton, Import Skeletal Meshes, Import Morph Targets, Create Physics Asset, Import Animations, Import Bone Tracks, Use 30Hz to Bake Bone Animation or Custom Bone Animation Sample Rate, do not import all-zero curves, delete existing curves on reimport. It duplicates Epic's default assets pipeline to `/Game/_Agent/Pipelines/` and points `override_pipelines` at it; if Interchange fails it falls back to `AssetImportTask` with `FbxImportUI` (legacy names). Use T0 As Ref Pose and Update Skeleton Reference Pose change shared data: only on purpose (import options doc).
 Generic batch imports (props, textures) belong to unreal-pipeline-automation (`ue_pipeline.import_source`); this procedure only adds the skeletal and animation options.
-Importer status (version deltas): Interchange is production ready for asset import (5.5) and the default for FBX level import (5.6); whether FBX asset import goes through Interchange by default in 5.8 is [verify]. The functions set options on both routes and report which one ran (`route`).
+Importer status: Interchange is production ready for asset import (5.5) and the default for FBX level import (5.6). On 5.8.3 both functions ran through Interchange (`route: interchange`): the character gave mesh, skeleton, physics asset, animation and materials; a clip imported at its source rate gave 119 frames at 24 fps. Forcing 30 Hz on that 4.958 s clip was refused: Python got an empty list and the reason ("not compatible with import frame-rate 30 fps") was only in the log, which the functions return as `errors`. `SkeletalMeshTools.import_file` renumbers bone names (`ShoulderLeft4` where Interchange gave `ShoulderLeft1`).
 
 **Project-wide import defaults** (Lake [00:06:50]: change defaults in config, not per asset; import options doc: Do not import curves with 0 values for gameplay clips; one sample rate, 30 Hz default or the project rate). People importing through the dialog then get the same options as the agent.
 
@@ -64,7 +64,7 @@ A.apply_ini_plan(cfg, A.import_defaults_plan())        # backup in Saved/AgentBa
 ```
 
 Legacy importer: `[/Script/UnrealEd.FbxAnimSequenceImportData]` in `DefaultEditorPerProjectUserSettings.ini` (Lake edits the engine's `BaseEditorPerProjectUserSettings.ini`; the project file, section and keys are [verify]). Interchange: keep the duplicated pipeline `/Game/_Agent/Pipelines/PL_AnimOnly` (Do not import curves with 0 values, Use 30Hz to Bake Bone Animation or Custom Bone Animation Sample Rate) and put it in Project Settings > Engine > Interchange > Import Content stack (GUI; Python route [verify]).
-Test: `job_character_audit.py` (option `fbx`); `t_import_defaults_and_root_motion_decision`. Status: ini plan offline-tested; editor side not yet run in Unreal.
+Test: recipe a8 of `live_mcp_recipes.py`; `job_character_audit.py` (option `fbx`, not used in the live run); `t_import_defaults_and_root_motion_decision`. Status: Interchange imports run on 5.8.3; ini plan offline-tested; the ini keys and the Import Content stack not yet run.
 
 ## P2. Skeleton audit
 
@@ -76,9 +76,9 @@ for i in v["issues"]:
 ```
 
 Checks (offline-tested): one root, namespaces, duplicates, root at origin and orientation, unused bones (no weights, parent of none weighted; IK bones kept), influences over 8 without unlimited influences (Biava: render-only artifacts), over 12 on non-hero (DeVoe), influences increasing by LOD, 800+ morphs, unit errors, missing mannequin IK bones, single LOD, no Physics Asset.
-Facts routes: bones and parents through `SkeletonModifier` (5.4+) else AnimPose ref pose (no parents); influences through `SkinWeightModifier` `[verify]`, else `max_influences` stays None and the check moves to the GUI (Skeletal Mesh editor, select a vertex).
+Facts routes: bones and parents through `SkeletonModifier` (5.4+) else AnimPose ref pose (no parents); influences through `SkinWeightModifier` (run on 5.8.3: 8 on SKM_Manny_Simple), else `max_influences` stays None and the check moves to the GUI (Skeletal Mesh editor, select a vertex).
 Fixes: unused bones with the 5.8 Skeletal Editor Bone Count Reduction (GUI, keeps parents up to root), or back to the DCC; extra procedural bones belong in the Control Rig Construction Event (Biava [00:05:09]).
-Test: `job_character_audit.py`; audit logic in `test_anim_offline.py::t_import_audit`. Status: logic offline-tested, facts not yet run in Unreal.
+Test: `job_character_audit.py`; audit logic in `test_anim_offline.py::t_import_audit`. Status: logic offline-tested; facts run on 5.8.3 (Manny and an imported FBX biped, 0 errors, transfer `ik_retargeter`). Bone counts differ by source: `SkeletonModifier` reads the mesh (89 on SKM_Manny_Simple), `SkeletalMeshTools.get_bone_names` the Skeleton asset (161 on SK_Mannequin).
 
 ## P3. Transfer decision
 
@@ -103,9 +103,9 @@ rig = A.ik_rig_facts("/Game/Characters/Hero/Rigs/IK_Hero")
 print(A.chain_map_check(rig["chains"])["issues"])
 ```
 
-5.8 template layout (release notes): LeftLeg thigh to ankle with the IK goal at the ankle, LeftFoot ball to toe; FBIK auto setup SubIterations 10, Goal ChainDepth 2; 17 templates plus Rigify and Meshcapade. Pelvis: "Set Pelvis" (was Set Retarget Root). Chains mapped by name later: keep IK_Mannequin chain names for Exact mapping (Richardson uses Exact "because I know exactly what I'm working with"). Goals only on chains that need Blend to Source, Stride Warp or Speed Plant (doc).
+5.8 template layout (release notes): LeftLeg thigh to ankle with the IK goal at the ankle, LeftFoot ball to toe; FBIK auto setup SubIterations 10, Goal ChainDepth 2; 17 templates plus Rigify and Meshcapade. Pelvis: "Set Pelvis" in the GUI; in Python on 5.8.3 the controller still has `set_retarget_root` and `get_retarget_root` (no `set_pelvis`). Chains mapped by name later: keep IK_Mannequin chain names for Exact mapping (Richardson uses Exact "because I know exactly what I'm working with"). Goals only on chains that need Blend to Source, Stride Warp or Speed Plant (doc).
 FBIK fixes if goals misbehave (Control Rig doc values; IK Rig solver exposes similar settings `[verify]`): `A.fbik_foot_defaults()`.
-Test: `job_retarget_pass.py`; plan logic `t_biped_chain_plan_*`, `t_chain_map_check`. Status: plan offline-tested; controller calls not yet run in Unreal.
+Test: `job_retarget_pass.py`, recipe a6; plan logic `t_biped_chain_plan_*`, `t_chain_map_check`. Status: run on 5.8.3: the auto template gave 29 chains on Manny; on an FBX biped with custom names it reported success with 0 chains, so `create_ik_rig` now builds the plan from the mesh (7 chains, pelvis `Hips1`, clavicles and toes reported unresolved).
 
 ## P5. IK Retargeter, built once, then templated
 
@@ -131,8 +131,8 @@ Order that decides contact (Richardson; 5.8 doc), set once, in the GUI where the
 8. Remap Curves: Copy All Source Curves.
 9. One-off corrections (legs spread on one character, a finger or neck offset): an Additive Pose op with a weight, placed where it acts (between FK and IK for fingers, neck, head), never edits to the base retarget pose or IK settings (Richardson [00:33:16]-[00:34:21]; op weighting was "not quite ready" in 5.6 [verify 5.8]).
 Gate: Retarget Output Log clean after swapping preview meshes (Window > Retarget Output Log; incompatibilities print there), `A.retarget_log_check(lines)` on the copied or saved log lines (log category names [verify]). Any retargeter that survives into shipping at runtime: per-op LOD thresholds on Run IK Rig, Filter Bones, Stretch Chains (sub-ops are skipped through Run IK Rig) and Profile Ops timings recorded on the target, passed as `op_stack_check(..., runtime=True, profile_ops_us={...})` (retargeting doc, Asset Settings and Retargeting Stack Framework; 5.7 notes).
-Save the tuned asset as `RTG_Template`; for each new character `A.create_retargeter(..., template="/Game/.../RTG_Template")` swaps target rig and mesh; incompatibilities print in the Retarget Output Log. One retargeter with Override Sets (5.8) replaces near-duplicates for gameplay states; `DuplicateRetargetOverrideSet()` is on the controller (5.8 notes, Python spelling `[verify]`).
-Test: `job_retarget_pass.py`; rules `t_op_stack_check`. Status: rules offline-tested; controller not yet run in Unreal.
+Save the tuned asset as `RTG_Template`; for each new character `A.create_retargeter(..., template="/Game/.../RTG_Template")` swaps target rig and mesh; incompatibilities print in the Retarget Output Log. One retargeter with Override Sets (5.8) replaces near-duplicates for gameplay states; `DuplicateRetargetOverrideSet()` is on the controller (5.8 notes; Python spelling not yet run).
+Test: `job_retarget_pass.py`; rules `t_op_stack_check`. Status: run on 5.8.3: `IKRetargetFactory` plus the controller made the retargeter; its default stack read Pelvis Motion, FK Chains, Run IK Rig, Root Motion, Remap Curves (`get_op_name`), and `op_stack_check` flagged it as expected (no Blend to Source, Root Motion source unset). The GUI steps above are not scripted.
 
 ## P6. Batch retarget and validate contact
 
@@ -152,7 +152,7 @@ for s, t in zip(clips, b["created"]):
     print(A.root_motion_check(tf["samples"]["root"], tf["fps"], name=tf["name"], enabled=tf["root_motion"])["issues"])
 ```
 
-5.8: RunBatchRetarget with FIKRetargetBatchOperationInputs and bRetainAdditiveFlags; fallback `duplicate_and_retarget` (pre-5.8). Positions come from `anim_clip_facts` (AnimPose in component space); never from `AnimationLibrary.get_bone_pose_for_frame` or `_for_time`, which return parent-relative transforms [added, verify]. Batch with a hand-built retargeter, never an auto-generated one (doc, Export Overrides). Tolerances in `foot_contact_metrics` and `compare_contact` are [added] defaults (1 to 2 cm).
+5.8: RunBatchRetarget with FIKRetargetBatchOperationInputs and bRetainAdditiveFlags (run on 5.8.3: inputs `assets_to_retarget` as AssetData, `target_path`, `retain_additive_flags`; a death clip retargeted onto the FBX biped moved its hips 126 cm); fallback `duplicate_and_retarget` (pre-5.8). Positions come from `anim_clip_facts` (AnimPose in component space); never from `AnimationLibrary.get_bone_pose_for_frame` or `_for_time`, which return parent-relative transforms [added, verify]. Batch with a hand-built retargeter, never an auto-generated one (doc, Export Overrides). Tolerances in `foot_contact_metrics` and `compare_contact` are [added] defaults (1 to 2 cm).
 Visual gate (latent job or live editor):
 
 ```python
@@ -165,7 +165,7 @@ print(ue_review.review_images(frames, sheet=info["out_dir"] + "/sheet.png"))  # 
 ```
 
 Look at contact frames side and front, characters side by side with the native in the middle (Jose [00:35:47]), knees and elbows direction, props, pelvis height on crouch. Play several clips after each change, toggling ops (Richardson [00:29:47], [00:32:08]).
-Test: `job_retarget_pass.py`; metrics `t_foot_contact_and_compare`, `t_root_motion_check`. Status: metrics offline-tested; batch and capture not yet run in Unreal.
+Test: `job_retarget_pass.py`; metrics `t_foot_contact_and_compare`, `t_root_motion_check`. Status: metrics offline-tested; batch and clip facts run on 5.8.3; the capture not yet run.
 
 ## P7. Mocap from a third skeleton
 
@@ -173,7 +173,7 @@ Test: `job_retarget_pass.py`; metrics `t_foot_contact_and_compare`, `t_root_moti
 2. Separate `RTG_Mocap_to_Hero`: Filter Bones op (check with `A.filter_bones_check({"responsiveness": 0.5, "velocity_cutoff_hz": 20}, frame_rate)`), Stretch Chains if limb lengths must match, Root Motion Generate From Target Pelvis when the mocap root is static.
 3. Validate as P6; `A.root_motion_check` flags a moving clip whose root does not move (hips-only mocap).
 4. Stylized blocking from dense mocap (Sir Wade): bake to Control Rig, override layer below at weight 0, pass-through keys on golden frames, then weight 1 and constant keys. Agent substitute: pick frames at velocity extrema of key controls [added], key them on the override layer with `ControlRigSequencerLibrary.set_local_control_rig_transform(..., set_key=True)`, set constant interpolation, then `A.stepped_check` on sampled bones.
-Test: filter and stepped checks offline-tested; the rest not yet run in Unreal.
+Test: filter and stepped checks offline-tested; the rest not yet run.
 
 ## P8. Animation content audit and cleanup
 
@@ -189,7 +189,7 @@ A.ensure_root_motion([f["path"] for f in facts if A.classify_clip(f["name"])["lo
 ```
 
 Lake: track count is a health signal (66 was right on his project, 89 and 159 meant problems); bone tracks are best removed at the source, curves in engine. Change import defaults project-wide, not per asset. ACL stays the default codec; editing a codec does not recompress until Compress is pressed.
-Test: `job_locomotion_data.py`; `t_anim_content_audit`, `t_classify_clip`. Status: audit offline-tested; facts and edits not yet run in Unreal.
+Test: `job_locomotion_data.py`; `t_anim_content_audit`, `t_classify_clip`. Status: audit offline-tested; facts run on 5.8.3 on the engine's Unarmed clips (coverage correctly reported missing starts, stops, arcs and refaces); `strip_curves` edits not yet run. Frame counts: `AnimationLibrary.get_num_frames` counts intervals (keys = frames + 1); the rate is `data_model_interface.get_frame_rate()`.
 
 ## P8b. Movement model first, clips authored against it
 
@@ -204,7 +204,7 @@ Goal: clips that match what the capsule does, so selection problems are system p
    print(v["ok"], v["root_max_cm"], v.get("chest_max_cm"), v["capsule_stop"], v["root_stop"], [i["code"] for i in v["issues"]])
    ```
    then `A.speed_parity(model_speeds, measured)`. Tolerances (root 2 cm, chest 30 cm) are [added] defaults.
-Test: `t_capsule_match`, `t_chest_over_root_and_speed_parity`. Status: checks offline-tested; recording and export not yet run in Unreal.
+Test: `t_capsule_match`, `t_chest_over_root_and_speed_parity`. Status: checks offline-tested; recording and export not yet run.
 
 ## P9. Motion matching from GASP onto the character
 
@@ -248,7 +248,7 @@ Test: `t_capsule_match`, `t_chest_over_root_and_speed_parity`. Status: checks of
 6b. Motion Matching node guards and cost: Pose Jump Threshold Time (no jumps within the same asset closer than this), Pose Reselect History (no reselecting recent poses), Search Throttle Time (search less often); continuing pose bias also cuts searches. Search cost grows logarithmically with data, CPU only, spikier than blend spaces; spread characters across frames and threads (motion matching doc; GASP [01:24:26]-[01:25:36], [01:44:17]). No default values are given in the sources: read them from GASP's node.
 7. Verify in PIE: cycle idle, walk, run, strafe, crouch, jump, traversal; the log must have zero "no database asset provided for motion matching"; record the Rewind Debugger (Tools > Debug) and read the transition frame: Active vs Continuing pose, Channel Breakdown. Timescale 0.25 still-camera captures of starts, stops, pivots, refacing starts.
 Small team or mobile: DeVoe's minimal set (12 listed, 13 counted; 26 with strafing) plus the procedural nodes of P9b. A small set is not a reason for a state machine (GASP [01:21:06]).
-Test: `job_locomotion_data.py` (options `schemas`, `target_mesh`); `t_motion_matching_coverage`, `t_coverage_foot_pairs`, `t_database_plan_and_decision`, `t_mannequin_bone_map_and_schema_check`. Status: planning and checks offline-tested; asset edits and `schema_facts` not yet run in Unreal.
+Test: `job_locomotion_data.py` (options `schemas`, `target_mesh`); `t_motion_matching_coverage`, `t_coverage_foot_pairs`, `t_database_plan_and_decision`, `t_mannequin_bone_map_and_schema_check`. Status: planning and checks offline-tested; asset edits and `schema_facts` not yet run (no Game Animation Sample in the test project).
 
 ## P9b. Procedural nodes: steering, offset root bone, warping, foot placement
 
@@ -264,12 +264,12 @@ for st in ("moving_ground", "stopped", "falling", "montage"):
 - Orientation Warping per animation inside the blend stack, not on the blended pose; disable it on pivot corners by a curve read from the selected clip; switch steering setups by database tags (Jose [00:27:34]-[00:30:58]).
 - Foot Placement with foot-lock curves generated by an Animation Modifier to cut sliding in arcs; mesh-space additive leans and look-at give intent with few clips (DeVoe [00:31:46]-[00:33:34]). GASP's lateral lean over-leans once arcs are in the databases (motion matching doc).
 Visual gate: running into a wall, stop at the capsule centre, starts on keyboard input, arcs, each node toggled from the GASP widget (Anim Nodes toggles) to judge its contribution.
-Test: `t_offset_root_and_procedural_order`. Status: checks offline-tested; graph reading not yet run in Unreal.
+Test: `t_offset_root_and_procedural_order`. Status: checks offline-tested; graph reading not yet run.
 
 ## P10. State machine route (Lyra)
 
 When `A.decide_locomotion(...)` returns `state_machine` or `hybrid`: migrate Lyra's `AnimBP_Mannequin_Base`, `ALI_ItemAnimLayers`, `ABP_ItemAnimLayersBase`; retarget the clips (P6); set Sequence Player and Blend Space variables on data-only child AnimBPs; distance matching for starts, stops and lands, stride warping on cycles, orientation warping so 4 cardinal strafes cover 360 degrees; Turn Yaw curves baked with the Turn Yaw Anim Modifier (needs root motion enabled on the source). Graph edits (states, transitions, aliases) are GUI; keep flat top-level state machines reused through cached poses (Lake).
-Status: not yet run in Unreal.
+Status: not yet run (no Lyra content).
 
 ## P11. Root motion and montages
 
@@ -286,7 +286,7 @@ A.set_montage_blend_out("/Game/Characters/Hero/Montages/AM_Vault", 0.0)   # GASP
 Game-thread cost, stated correctly: Root Motion from Everything AND Root Motion from Montages Only both update the AnimGraph on the game thread instead of a worker (root motion doc verbatim; Lake [00:13:18]; animation digest 10). Montages Only is the capsule-driven choice (networking, server does not run animation, CMC handles root motion poorly: GASP [00:23:53]), not a threading optimization: budget the game thread for every character using it and measure it in Insights. Crowds or NPCs that never play root-motion montages: No Root Motion Extraction, which the doc wording leaves on workers [inference, verify]. Whether the engine only moves the update while a root-motion montage plays is [verify] in the installed engine (Insights, animation channel, game thread vs worker tasks under each mode).
 In PIE: `show collision`, the capsule stays with the mesh instead of the mesh drifting and snapping back; Walking and Falling ignore root motion Z (Flying applies it). Multiplayer trajectories need the CMC's input acceleration replicated in C++ (GASP [01:36:57]): hand to unreal-gameplay.
 Traversal (GASP [00:50:39]-[01:08:07], [02:14:39]-[02:22:32]): a Chooser narrows candidates by action type, speed, obstacle height and depth to about two montages (left and right foot); a callable Motion Match picks asset, start time and play rate among frames marked by Pose Search Branch In; custom Blueprint channels read the ledge transform (5.8: `...FromContext` overrides) against an unweighted attach bone in the clips; Motion Warping absorbs the residual error. Tails: a notify state forces the montage to blend out early, and the clip's tail (landing and run-out) sits in a locomotion database the Chooser enables when JustTraversed, so follow-through plays yet the player steers at once; `database_plan` files `*_From_Traversal*` and `*Vault*_Tail` names there.
-Test: `job_locomotion_data.py` (options `montages`, `anim_bp`, `multiplayer`); `t_montage_blend_out`, `t_root_motion_mode_check`. Status: checks offline-tested; edits not yet run in Unreal.
+Test: `job_locomotion_data.py` (options `montages`, `anim_bp`, `multiplayer`), recipe a5; `t_montage_blend_out`, `t_root_motion_mode_check`. Status: checks offline-tested; run on 5.8.3: `ensure_root_motion`, `create_montage` (DefaultSlot, blend 0.25 in and out, trigger -1, notifies through `AnimationLibrary.add_animation_notify_event`) and `set_montage_blend_out` (0.0 held after a reload); the threading questions above stay [verify].
 
 ## P12. Control Rig foot IK (runtime) and replay
 
@@ -295,7 +295,7 @@ Test: `job_locomotion_data.py` (options `montages`, `anim_bp`, `multiplayer`); `
 3. Agent path for graph work: build the graph once (computer use, or take an existing rig), then Class Settings > Copy Python Script, and replay the script with new bone names; the Control Rig Python Log records every GUI edit as Python (Control Rig doc). Doc-confirmed calls: `rig.get_controller().add_unit_node(script_struct=unreal.RigUnit_...static_struct(), method_name="Execute", position=unreal.Vector2D(x, y))`, `rig.get_hierarchy_controller().add_bone(...)`, `rig.recompile_vm()`; the FBIK unit struct name `[verify]` (likely `RigUnit_PBIK`). Doc snippets have small bugs (unquoted names, missing parentheses, `EditorLevelLibrary`): fix before running.
 4. Performance: profile (Class Settings > Enable Profiling, microseconds per node), set the Control Rig node LOD threshold in the AnimBP so distant characters skip it [added]; convert to a C++ rig unit only for hot runtime functions (60 vs 10 to 16 µs, LEGO Fortnite).
 5. Verify: stairs and a 30 degree slope captures, foot-to-floor gap per frame (trace in the review level), no knee hyperextension, no pop onto a stair, no jitter standing.
-Status: not yet run in Unreal.
+Status: not yet run. Related, run on 5.8.3: `ControlRigTools` built a rig with a control and a Get/Set graph (recipe A3 of `mcp-animation.md`), and `SequencerControlRigTools` keyed it (A4).
 
 ## P13. Bake Sequencer work to animation, and animation onto a rig
 
@@ -303,12 +303,12 @@ Status: not yet run in Unreal.
 world = unreal.get_editor_subsystem(unreal.UnrealEditorSubsystem).get_editor_world()
 ls = unreal.load_asset("/Game/Cine/LS_Shot010")
 binding = ls.get_bindings()[0]
-A.bake_to_anim_sequence(ls, binding, "/Game/Characters/Hero/Anims/Baked/Hero_Shot010", link=True)  # linked, re-bakes on edit
+A.bake_to_anim_sequence(ls, binding, "/Game/Characters/Hero/Anims/Baked/Hero_Shot010", SKELETON, link=True)  # linked, re-bakes on edit
 unreal.ControlRigSequencerLibrary.bake_to_control_rig(world, ls, rig_class, unreal.AnimSeqExportOption(), False, 0.001, binding)
 ```
 
 Only rigs with a Backwards Solve appear in Bake To Control Rig. Use Warm Up Frames or Delay Before Start when post-process AnimBP effects must settle. In Sequencer, constraints start at their creation frame, the bottom active one wins, disable with the Active key, retime by deleting and re-keying (Sir Wade); constrain to bones or spawnables rather than controls (Biava). Shot structure belongs to unreal-cinematics.
-Status: calls doc-confirmed, not yet run in Unreal.
+Status: run on 5.8.3 headless and offscreen: the export returned true but the clip held one pose at every frame (the rig was not evaluated); a GUI-editor bake is not yet run. `bake_to_control_rig` not yet run. Read poses back before trusting a bake.
 
 ## P14. Animation performance pass
 
@@ -324,7 +324,7 @@ A.budget_console(budget_ms=1.0, enabled=True, debug=True)               # a.Budg
 ```
 
 Order (Lake; AnimBP doc): measure first (`stat anim`, `stat unit`, `stat unitgraph`, `showdebug animation`, Insights with the Animation channel from the Trace widget); project defaults (Only Tick Pose When Rendered; it does not cover placed Skeletal Mesh Actors); AnimBPs multithreaded with Warn About Blueprint Usage, compile, fix every warning (graph work: math on pins into thread-safe functions, reference chains into Property Access); NPCs on SkeletalMeshComponentBudgeted (component class change is a Blueprint edit, or C++ `SetDefaultSubobjectClass`), Enable Animation Budget on Begin Play plus `a.Budget.Enabled`; LOD Settings asset, hysteresis, bone lists, influences 8, 4, 1; fixed bounds only where the mesh stays inside; leader pose bounds on modular characters. Re-measure the same path; `ue_stat.budget_check` on the captured frames; screenshots at several distances.
-Test: `job_perf_defaults.py`; `t_ini_plan_and_apply`, `t_lod_and_allocator`. Status: ini writer offline-tested on temp files; editor side not yet run in Unreal.
+Test: `job_perf_defaults.py`; `t_ini_plan_and_apply`, `t_lod_and_allocator`. Status: ini writer offline-tested on temp files; dry run and AnimBP settings run on 5.8.3 (a copy of ABP_Unarmed); `SkeletalMeshComponentBudgeted` was absent (plugin off), so the allocator part is not yet run.
 
 ## P15. MetaHuman game tier
 
@@ -335,7 +335,7 @@ print(A.metahuman_tier_check({"platform": "mac", "pipeline_type": "optimized", "
 ```
 
 Then LODSync (Forced LOD -1, Min LOD per platform) and MetaHuman component thresholds (Facial Animation LOD Threshold default 2, neck correctives and neck procedural rig have the biggest impact) on the assembled Blueprint (property names `[verify]`); cards on Mac (`r.HairStrands.UseCardsInsteadOfStrands 1` or groom Min LOD 3); audition LODs at the game camera from LOD 2 on PS5-class; `stat anim`, `stat gpu` (catches a cinematic export), Insights in a Test build on target. Upgrading from 5.7: `ue_run.run_commandlet(UPROJECT, "ConvertLegacyDNAAssets", ["-PathFilter=/Game/MetaHumans", "-ResaveDNA", "-Verbose", "-DryRun"])`, then without `-DryRun`, then re-assemble. Cloud texture and auto-rig requests need an interactive Epic sign-in once.
-Test: `t_metahuman_cloth_filter_stepped`. Status: check offline-tested; build not yet run in Unreal.
+Test: `t_metahuman_cloth_filter_stepped`. Status: check offline-tested; build not yet run (the MetaHuman editor subsystem was absent with the plugin off).
 
 ## P16. ML Deformer data preparation
 
@@ -348,9 +348,9 @@ Status: check offline-tested; training is a GUI action.
 ## P17. Cloth review
 
 `A.cloth_config_check(cfg)` then captures of sprint, sharp turn, sudden stop, crouch from front, side and back: clipping, over-stretch, pops at kinematic borders, tangling, fabric identity (Epic China TA). Game path: panel cloth (production ready in 5.8), coarse sim mesh with adaptive remesh on the max distance mask, backstop radius growing with distance, geodesic tethers with filtered ends, velocity scale clamps, sphere self collision, kinematic collider only near. Dataflow graph edits are GUI; runtime changes through the Cloth Outfit Interactor (Blueprint).
-Status: check offline-tested; the rest not yet run in Unreal.
+Status: check offline-tested; the rest not yet run.
 
 ## P18. Capture loop for animation review
 
 Latent job or live editor. Fixed cameras (side, front, three-quarter), same frames each iteration, `ue_review.render_still` or `ue_review.screenshot_views`, then `ue_review.image_checks` (never approve an all-white or all-black frame) and `ue_review.contact_sheet` for side-by-side review. For locomotion in PIE: GASP widget timescale 0.25 and still camera; separate camera lag from animation before retuning (GASP [01:46:01]). Score with `critique.md`.
-Status: lead toolkit calls, not yet run in Unreal.
+Status: lead toolkit calls, not yet run for animation.

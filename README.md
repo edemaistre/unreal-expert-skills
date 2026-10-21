@@ -1,4 +1,4 @@
-# Unreal Engine Expert Skills v0.1
+# Unreal Engine Expert Skills v0.2
 
 Agent skills that let Claude (Claude Code) or Codex drive Unreal Engine 5.8 the way the experts in the best tutorials, conference talks and official documentation do. Built on 2026-09-24 with the same method as [Blender Expert Skills](https://github.com/edemaistre/blender-expert-skills), [Maya Expert Skills](https://github.com/edemaistre/maya-expert-skills) and [ZBrush Expert Skills](https://github.com/edemaistre/zbrush-expert-skills): transcripts of top-rated videos, cited expert notes, then skills with tools and review rubrics, graded blind against the same model without them. Start with the lead skill, `unreal-expert`.
 
@@ -17,11 +17,13 @@ Agent skills that let Claude (Claude Code) or Codex drive Unreal Engine 5.8 the 
 | `unreal-vfx` | a UE5 task involves Niagara or Chaos destruction: a Niagara fireball, projectile trail, impact explosion, muzzle flash, spell, smoke, sparks, debris, ... |
 | `unreal-world-building` | building or fixing an Unreal Engine 5 level or open world: World Partition, OFPA, Data Layers, Level Instances, Packed Level Actors, HLOD, landscape s... |
 
-## Status at v0.1
+## Status at v0.2
 
-- 10 skills (the lead `unreal-expert` and nine specialists) written from 115 expert videos (77 h) and 82 official documentation pages, each with references and an offline-tested `ue_<domain>.py` module. The lead carries the shared toolkit (`ue_env`, `ue_run`, `ue_remote`, `ue_review`, `ue_audit`, `ue_stat`).
-- Blind-graded written scenarios (round 1): 51 % without the skills, 95 % with them (69/135 vs 128/135); all 9 scenarios improved. One grader per scenario: a direction, not a statistic. These scores were measured before the refactor that v0.1 includes; round 2 is planned after the first run in Unreal.
-- Not verified inside Unreal Engine: the engine was not installed when v0.1 was cut (Epic sign-in pending), so nothing has run in the engine. 1,534 offline checks pass across the 10 modules, with system Python and fake `unreal` modules only. Every Unreal API name, cvar and command in the skills is marked "not yet run in Unreal"; C++ builds and the MCP toolsets are untested. Treat the in-engine code paths as unverified until a first live run (`tests/OPEN_ISSUES.md` in the build project).
+- 10 skills (the lead `unreal-expert` and nine specialists) written from 115 expert videos (77 h) and 82 official documentation pages, each with references and an offline-tested `ue_<domain>.py` module. The lead carries the shared toolkit (`ue_env`, `ue_run`, `ue_remote`, `ue_mcp`, `ue_review`, `ue_audit`, `ue_stat`).
+- Run in Unreal Engine 5.8.3 on macOS (Apple silicon): the MCP recipes of every domain, the in-editor helpers, headless and offscreen editor jobs. Each `SKILL.md` has a status line naming what ran and what did not yet run.
+- Built around Epic's Unreal MCP toolsets: every specialist has `references/mcp-<domain>.md` with the argument JSON of the calls it needs, and the lead explains the channels and batching through `execute_tool_script`.
+- Measured with an arena (the same agent, Claude Sonnet 5.5 with Epic's Unreal MCP, on 14 tasks, no skills against v0.1 against v0.2): on the 10 development tasks the mean score is 0.89, 0.94 and 0.98, at $0.44, $0.50 and $0.33 per task; on the 4 held-out tasks the score ties (0.96, 0.95, 0.95) and v0.2 costs $0.51 against $0.66 without skills. One or two trials per cell and one grader, and the v0.2 author saw the development failures: a direction, not a statistic. Details and limits in the CHANGELOG.
+- Not verified: Unreal 5.6 and 5.7, Windows and Linux, an Opus agent, the items each `SKILL.md` marks as not yet run (for example a Movie Render Graph render end to end, Motion Matching, packaged builds).
 
 ## Requirements
 
@@ -40,6 +42,6 @@ Update with `git -C ~/unreal-expert-skills pull`. For a cloud agent that only se
 
 ## Version
 
-v0.1, released 2026-09-24. Each `SKILL.md` carries `metadata.version: "0.1"` and a visible version line; each script exposes `__version__ = "0.1"`. History in `CHANGELOG.md`; git tag `v0.1`. Mentions of v0.1, v0.2, v1 or v2 inside the references and code comments name the internal drafts of 2026-09-24 (see `CHANGELOG.md`).
+v0.2, 2026-10-21. Each `SKILL.md` carries `metadata.version: "0.2"` and a visible version line; each script exposes `__version__ = "0.2"`. History in `CHANGELOG.md`; git tag `v0.2`. Mentions of v0.1, v0.2, v1 or v2 inside the references and code comments name earlier drafts; the CHANGELOG explains them.
 
 Paths such as `tests/code/...`, `notes/...`, `sources/...` or `~/Developer/pro/...` inside the skills point to the build project (tests, notes, sources) on the author's machine; they are provenance only.

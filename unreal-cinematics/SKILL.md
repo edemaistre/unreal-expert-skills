@@ -1,20 +1,24 @@
 ---
 name: unreal-cinematics
-description: "Use when making a trailer, cutscene, cinematic or short film in Unreal Engine 5.8 with Sequencer: shot lists, master and shot sequences, cameras, lenses, depth of field, camera cuts, spawnables, character animation in shots, per-shot lighting, Movie Render Graph or Movie Render Queue EXR renders, \"render darker than the viewport\", \"first frames pop\", \"last frame missing\", ACES or OCIO to DaVinci Resolve, the 180-degree rule, Sequencer Python, or reviewing a cut."
+description: "Use when making a trailer, cutscene, cinematic or short film in Unreal Engine 5.8 with Sequencer: shot lists, master and shot sequences, cameras, lenses, depth of field, camera cuts, spawnables, character animation in shots, per-shot lighting, Movie Render Graph or Movie Render Queue EXR renders, \"render darker than the viewport\", \"first frames pop\", \"last frame missing\", ACES or OCIO to DaVinci Resolve, the 180-degree rule, Sequencer Python or Epic's Unreal MCP (SequencerTools: add_actors returns empty, a camera path that plays only half the keyed distance, set_camera_cut_binding fails, eased camera moves that keep facing a point), or reviewing a cut."
 metadata:
-  version: "0.1"
-  date: "2026-09-24"
+  version: "0.2"
+  date: "2026-10-21"
 ---
 
 # Cinematics in Unreal Engine 5.8 (Sequencer and Movie Render Graph)
 
-**Version 0.1** (2026-09-24), part of Unreal Engine Expert Skills v0.1.
+**Version 0.2** (2026-10-21), part of Unreal Engine Expert Skills; checked live on Unreal 5.8.3.
 
 Expert level here means the cut is checked as data before anything is built and a render is judged on its files and frames, not the viewport. The core stance: plan offline, build in one transaction, lock timing against the music before animating, light from approved masters, render per shot through one template graph, hand linear EXRs, an edit and a colour note to the grade.
 
 **REQUIRED BACKGROUND:** unreal-expert (channels, review loop, 5.8 traps).
 
-**Status (2026-09-24):** `scripts/ue_cine.py` and `scripts/cine_render_callbacks.py` are **not yet run in Unreal**; offline tests pass (counts: `references/sources.md`). In the engine, run `tests/code/unreal-cinematics/job_00_probe_cine.py` first.
+**Status (2026-10-21, Unreal 5.8.3, macOS):** probe, `build_from_plan` (audit pass), template graph authoring (commandlet), boards and one shot rendered to EXR and PNG (latent offscreen), and `live_mcp_recipes.py` (6 recipes, headless) ran and pass; offline and fake-unreal tests pass. **Not yet run:** `cine_render_callbacks.py` (Execute Script), command-line renders, Accumulation DOF, audio tracks, real character animation, ProRes, OCIO 2.5 view names; `procedures.md` marks each block.
+
+**MCP first.** With an editor and Epic's Unreal MCP: read `references/mcp-cinematics.md` (signatures, JSON, recipes, guessed names that do not exist) instead of `describe_toolset`. Four or more toolset calls in a row go through one `ProgrammaticToolset.execute_tool_script` script (section 9 has each recipe as one, the camera move as B4). Renders: Python (`ue_cine`), latent offscreen.
+
+**A camera move over MCP, in this order (run on 5.8.3).** `load_level`; create the sequence, rate and range; place the camera at its start pose; `open_sequence` (before it, `add_actors` silently returns `[]`); `add_actors`; key the section on the transform track `add_actors` made. A second transform track or section overlaps it and is blended by weight: keys read right, the camera travels half the distance. Then read back what plays: `set_playhead_frame`, `force_evaluate`, `get_actor_transform` at 5 or more frames against the intended path. Ease in and out: two smart auto keys (interpolation `""`). Facing a point: rotation keys every few frames from the evaluated locations. Camera cut binding: `ObjectTools.set_properties` on `CameraBindingID` (`set_camera_cut_binding` fails). Markers take ticks; keys take display frames.
 
 ## Stance (the expert delta)
 
@@ -24,7 +28,7 @@ Expert level here means the cut is checked as data before anything is built and 
 - **Warm-up is three fixes, and end frames are exclusive.** Idle CPU simulation: Engine Warm Up Count above 30; temporal history: Render Warm Up; anything moving at frame one: animation and camera cut extended before the start with camera-cut warm-up, which evaluates the lead-in instead of holding frame one (tips doc; Comly/Hoffman, demystifying MRQ). A 0 to 50 range renders 0 to 49.
 - **Samples buy motion blur and anti-aliasing, nothing else.** Noise goes back to its source (demystifying MRQ; Faucher, fVg5ihB8Wdc [00:09:15]). Temporal only, odd counts with Frame Center, or Blur's 24/48/64 with Frame Close (AAAhD5tEUBs [00:39:32]); AA None above 8 samples; zero console variables until a named shot problem needs one (fVg5ihB8Wdc [00:03:00]).
 - **Grade outside from linear EXR, and say how to read it.** Tone curve off gives linear sRGB, about one stop darker than the viewport because UE's tone curve is "ACES flavored, but not a true ACES" (Faucher, 2Q3CybANHKE [00:04:31] [00:09:39]). Resolve's ACES Transform: tone curve on, sRGB (Linear) to sRGB Texture; off, Linear sRGB to sRGB; ACEScg (only for a vendor), ACEScg to sRGB ([00:08:30] [00:09:05]). Light and review through the viewport's OCIO Display set to that view ([00:10:28] [00:11:00]).
-- **The shot is the render unit.** "The smallest unit of distributable work in Unreal Engine is a single camera cut" (MRQ command-line doc): one job per shot, one template graph, per-job variable overrides, never edits to the shared graph. Plain MRQ needs babysitting and a crash loses the shots, so unattended multi-shot renders go through a farm manager (Glitch [00:40:14]).
+- **The shot is the render unit.** "The smallest unit of distributable work in Unreal Engine is a single camera cut" (MRQ command-line doc): one job per shot, one template graph, per-job variable overrides, never edits to the shared graph. A crash in plain MRQ loses the queue, so unattended multi-shot renders go through a farm manager (Glitch [00:40:14]).
 - **Lighting scales by process.** A temp camera light from day one; then one or two signature shots per lighting scenario, locked with the director; then per-shot `_LGT` subsequences derived from them, graded by distance from their master (Glitch [00:27:18] [00:28:51] [00:29:23] [00:31:32] [00:36:59]).
 
 ## Establish first
@@ -34,7 +38,7 @@ Expert level here means the cut is checked as data before anything is built and 
 | Delivery: graded or direct | tone curve, format, OCIO, colour note | graded: EXR 16-bit half, tone curve off |
 | Production record (rate, start, bias, naming) | every sequence, EDL | the project's `DefaultEngine.ini`; else 24 fps, start 0 (SPI 101, CAT demo 1000: match editorial) |
 | Duration, shots, music | layout, stingers | the brief; a temp track before boarding |
-| Aspect and filmback | lens, framing | 16:9 Digital Film [verify mm]; 2.39 crop for scope |
+| Aspect and filmback | lens, framing | 16:9 Digital Film, 23.76 x 13.365 mm (the 5.8.3 default preset, BaseEngine.ini); 2.39 crop for scope |
 | Level and what exists | bindings | set possessable; cameras, characters, shot lights spawnable; master lighting in the level |
 | Cast | pre-roll, cost | existing Animation Sequences; joints and meshes per character |
 | Motion per shot, shutter timing | samples, pre-roll | Frame Center, odd counts |
@@ -45,7 +49,7 @@ Expert level here means the cut is checked as data before anything is built and 
 
 `import ue_cine as C` (skill `scripts/`, with unreal-expert's `scripts/` on the path). Full code: `references/procedures.md`.
 
-1. **Scaffold (once per project).** Production defaults recorded once (CAT Production Setup or Project Settings) and copied into `plan["production"]`; folder template, shots in steps of 10; with CAT 5.8, shot schemas holding the `_LGT` schema, a level per shot when shots need unique set states (P2). Check the MCP SequencerTools toolset first [verify]. GATE: `C.check_production(plan)` no fail; `audit_sequence` seq.rate and seq.start.
+1. **Scaffold (once per project).** Production defaults recorded once (CAT Production Setup or Project Settings) and copied into `plan["production"]`; folder template, shots in steps of 10; with CAT 5.8, shot schemas holding the `_LGT` schema, a level per shot when shots need unique set states (P2). GATE: `C.check_production(plan)` no fail; `audit_sequence` seq.rate and seq.start.
 2. **Plan the cut as data (python3).** Shots, sizes, lenses, camera and subject positions, motion, flags, cast (joints, meshes), stingers, lighting scenarios. `C.check_plan(plan)`: length, lenses, framing, 180-degree line, screen direction, jump cuts, DOF, pre-roll, exposure, cast, stingers, lighting groups (P1). GATE: no fail; every warn fixed or answered in the plan.
 3. **Build in one transaction (editor).** `C.build_from_plan(plan)`: master with Shots and music, a spawnable Cine Camera per shot (lens keyed, Use Field of View for LOD on), camera cut from pre-roll to the exclusive end, pre-rolled performers, `<shot>_LGT` with the temp light (P3); never overwrites. GATE: `C.audit_sequence` no fail, `bind.override` answered; `C.empty_level_test` lists only set pieces.
 4. **Board and lock the cut (latent editor).** `C.board_generator(..., preroll=True)`: first, middle, last frame per shot plus each shot's first pre-roll frame read in isolation (GUI: Evaluate Sub Sequences In Isolation); `ue_review.image_checks`, contact sheet (P4). Retime (`C.retime_shot`), takes (`C.new_take`), own tools inside `C.editor_tool` (P5). GATE: no all-white or all-black frame, the sheet and the cut with music judged, `C.ready_to_animate(plan)` passes.
@@ -96,26 +100,29 @@ Expert level here means the cut is checked as data before anything is built and 
 | Editing the shared graph per shot | every job changes | exposed variables per job |
 | Overnight local queue, or a local executor | a crash loses the queue; render stops | farm manager or one process per shot; `shots_to_render`; `start_render` |
 | Headless render without `-notexturestreaming` | soft first frames | `mrq_command_line` |
+| `add_actors` before `open_sequence` | `[]`, nothing bound, no error | open the sequence first |
+| A second transform track on a bound camera | keys right, camera covers half the path | key the auto section; read back evaluated transforms |
 
 ## Handoffs
 
-- **Receives** from unreal-lighting-rendering: the lit level (sky, fog, key, unbound PPV, exposure policy, master lighting as a sub-level or data layer), noise fixed at the source, lit masters for approval. From unreal-animation: Animation Sequences with lengths and rate, characters under 200 joints with Set Leader Pose Component on multi-mesh Blueprints, cloth or physics flags. From unreal-vfx: Niagara systems with user parameters and warm-up needs. From unreal-world-building: the map and its set pieces.
-- **Delivers** to the editor and colorist: EXRs per shot (`{sequence_name}/{sequence_name}.####.exr`, linear, half, metadata), `<prod>.edl`, the delivery note, the review MP4, contact sheets, JSON reports, the master. To unreal-lighting-rendering: shots failing continuity or noise, with frames. Farm commands to unreal-pipeline-automation; slow shots to unreal-performance.
+- **Receives** from unreal-lighting-rendering: the lit level (sky, fog, key, unbound PPV, exposure policy, master lighting as a sub-level or data layer), noise fixed at source. From unreal-animation: Animation Sequences with lengths and rate, characters under 200 joints with Set Leader Pose Component on multi-mesh Blueprints, cloth or physics flags. From unreal-vfx: Niagara systems with user parameters and warm-up needs. From unreal-world-building: the map and its set pieces.
+- **Delivers** to the editor and colorist: EXRs per shot (`{sequence_name}/{sequence_name}.####.exr`, linear, half, metadata), `<prod>.edl`, the delivery note, the review MP4, contact sheets. To unreal-lighting-rendering: shots failing continuity or noise, with frames. Farm commands to unreal-pipeline-automation; slow shots to unreal-performance.
 
 ## UE 5.8 notes
 
 - MRG is Production Ready, new features graph-only, the queue opens in a Basic config; new: Light Modifier, layer warm-ups, DWAA/DWAB EXR, Accumulation DOF (experimental plugin) (5.8 notes; VP [00:33:35]).
 - In MRG, Game Overrides act only while connected; tone curve on the renderer node, OCIO on the output node; the Execute Script node needs Editor Only mode for Python (transition doc; 5.8 notes).
-- Spawnables are custom bindings; create them with `LevelSequenceEditorSubsystem.add_spawnable_from_class`; no `add_master_track`; time functions take `MovieSceneTimeUnit` (seq-py doc; version deltas).
-- Playback honors the selection range; Sensor Aspect Ratio is not animatable; Take Recorder and VCam accept spawnables; Sandboxes for experiments.
-- OpenColorIO 2.5.1 with ACES 2.0: view names may differ from "ACES 1.0 SDR Video" [verify].
-- Mac: the MRG H.264 node is Windows only (encode with ffmpeg); ProRes on Mac is conflicting [verify]; path tracing needs macOS 26.4+.
+- Spawnables are custom bindings; in a commandlet create them with `MovieSceneSequence.add_spawnable_from_class` (the `LevelSequenceEditorSubsystem` version returns an empty binding there; run on 5.8.3); no `add_master_track`; transform channels are named `Location.X_0` from Python, `Location.X` over MCP; compare binding ids with `guid.to_string()` (run on 5.8.3).
+- Playback honors the selection range; Sensor Aspect Ratio is not animatable.
+- OpenColorIO 2.5.1 with ACES 2.0: view names may differ from "ACES 1.0 SDR Video" (not yet run).
+- Mac: the MRG H.264 node is Windows only (encode with ffmpeg); ProRes on Mac is conflicting (not yet run); path tracing needs macOS 26.4+.
 
 ## References
 
-- `references/procedures.md`: P0 to P11, full code, plan fields, the template graph spec (P8). Load before writing Sequencer or render code.
+- `references/mcp-cinematics.md`: Sequencer over MCP, signatures, JSON, run recipes, traps.
+- `references/procedures.md`: P0 to P11, full code, plan fields, the template graph spec (P8).
 - `references/expert-notes.md`: judgment per expert, timestamps, deciding conditions.
 - `references/critique.md`: the rubric, mapped to code checks.
 - `references/gui-paths.md`: menus and settings for the same procedures.
-- `references/sources.md`: sources, credentials, URLs, timestamps; revision history.
-- `scripts/ue_cine.py` (toolkit; its docstring lists every call) and `scripts/cine_render_callbacks.py` (the Execute Script class).
+- `references/sources.md`: sources, timestamps, revision history.
+- `scripts/ue_cine.py` (its docstring lists every call), `scripts/cine_render_callbacks.py` (Execute Script class).
