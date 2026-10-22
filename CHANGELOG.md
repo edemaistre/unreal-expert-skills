@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.2.1 (2026-10-22)
+
+The Scenario for Unreal plugin is public (https://github.com/scenario-labs/unreal-plugin, release 0.2.0), so the skills name it again.
+
+- `unreal-expert` section 4 is again "Generated assets and the Scenario plugin": assets from the plugin are finished by the same skills as assets from the Scenario MCP, and with the plugin installed its `scenario-unreal` skill covers the plugin's local MCP server (price, generate, import, place, save; generation waits for approval in the editor). Descriptions of `unreal-expert` and `unreal-pipeline-automation` and the intro of `unreal-pipeline-automation/references/generated-assets.md` name the plugin again.
+- No code or recipe changed. Version stamped everywhere (`metadata.version`, the version line, `__version__`); offline suites pass.
+
 ## v0.2 (2026-10-21)
 
 The first release run in Unreal Engine 5.8.3, written after comparing these skills with Epic's Unreal MCP plugin and its in-editor skills (plan: scenario-labs/skills#298).

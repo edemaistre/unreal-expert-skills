@@ -32,7 +32,7 @@ Where the numbers come from (commands from the sources, flags [verify] on 5.8 Ma
   snapshothitches -start / -stop (5.8, needs `stat default`): Saved/Profiling/Hitches
 """
 
-__version__ = "0.2"  # Unreal Engine Expert Skills v0.2 (2026-10-21; v0.1 was 2026-09-24)
+__version__ = "0.2.1"  # Unreal Engine Expert Skills v0.2.1 (2026-10-21; v0.1 was 2026-09-24)
 
 import csv
 import io

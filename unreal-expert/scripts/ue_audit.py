@@ -21,7 +21,7 @@ Headless: ue_run.run_python(uproject, job) with a job that calls audit_assets (n
 needed). Profiles: game (default), cinematic, mobile, prototype.
 """
 
-__version__ = "0.2"  # Unreal Engine Expert Skills v0.2 (2026-10-21; v0.1 was 2026-09-24)
+__version__ = "0.2.1"  # Unreal Engine Expert Skills v0.2.1 (2026-10-21; v0.1 was 2026-09-24)
 
 import json
 import os

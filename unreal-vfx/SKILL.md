@@ -2,13 +2,13 @@
 name: unreal-vfx
 description: "Use when a UE5 task involves Niagara or Chaos destruction: a Niagara fireball, projectile trail, impact explosion, muzzle flash, spell, smoke, sparks, debris, Niagara fluids or flipbooks; building or editing a Niagara system through Epic's Unreal MCP (NiagaraToolset_System, SetStackInputData, user parameters, stack issues) or Python; \"Niagara is too expensive\", stat NiagaraOverview, Effect Types, pooling, Data Channels, lightweight emitters, VFX scalability; judging an effect's readability, value, colour, timing, white blowout or strobing; capturing an effect at fixed ages; or a wall that shatters, geometry collection fracture, Dataflow, damage thresholds, floating chunks, debris cost, Chaos Visual Debugger."
 metadata:
-  version: "0.2"
-  date: "2026-10-21"
+  version: "0.2.1"
+  date: "2026-10-22"
 ---
 
 # Unreal VFX (Niagara, Chaos destruction, VFX critique)
 
-**Version 0.2** (2026-10-21), part of Unreal Engine Expert Skills; checked live on Unreal 5.8.3.
+**Version 0.2.1** (2026-10-22), part of Unreal Engine Expert Skills; checked live on Unreal 5.8.3.
 
 Expert level means an effect that tells the player the truth (where it hurts, when it is over), costs what its gameplay class allows across the whole world, and is proven by per-thread numbers on the target core count plus captures scored against a written rubric. On 5.8 the agent can author Niagara: Epic's toolsets build systems, emitters, modules, renderers, inputs and User parameters and read stack errors, over MCP or from Python (`ue_vfx.niagara_tool`). The craft stays the same: templates with a User parameter contract, Material Instances, Effect Types and Dataflow recipes.
 

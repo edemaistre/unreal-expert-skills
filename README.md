@@ -1,6 +1,6 @@
-# Unreal Engine Expert Skills v0.2
+# Unreal Engine Expert Skills v0.2.1
 
-Agent skills that let Claude (Claude Code) or Codex drive Unreal Engine 5.8 the way the experts in the best tutorials, conference talks and official documentation do. Built on 2026-09-24 with the same method as [Blender Expert Skills](https://github.com/edemaistre/blender-expert-skills), [Maya Expert Skills](https://github.com/edemaistre/maya-expert-skills) and [ZBrush Expert Skills](https://github.com/edemaistre/zbrush-expert-skills): transcripts of top-rated videos, cited expert notes, then skills with tools and review rubrics, graded blind against the same model without them. Start with the lead skill, `unreal-expert`.
+Agent skills that let Claude (Claude Code) or Codex drive Unreal Engine 5.8 the way the experts in the best tutorials, conference talks and official documentation do. Built on 2026-09-24 with the same method as [Blender Expert Skills](https://github.com/edemaistre/blender-expert-skills), [Maya Expert Skills](https://github.com/edemaistre/maya-expert-skills) and [ZBrush Expert Skills](https://github.com/edemaistre/zbrush-expert-skills): transcripts of top-rated videos, cited expert notes, then skills with tools and review rubrics, graded blind against the same model without them. Start with the lead skill, `unreal-expert`. Generated assets can come from the Scenario MCP or from the [Scenario for Unreal plugin](https://github.com/scenario-labs/unreal-plugin), whose `scenario-unreal` skill drives its local MCP server; these skills take over once the files are in the project.
 
 ## Skills
 
@@ -17,7 +17,7 @@ Agent skills that let Claude (Claude Code) or Codex drive Unreal Engine 5.8 the 
 | `unreal-vfx` | a UE5 task involves Niagara or Chaos destruction: a Niagara fireball, projectile trail, impact explosion, muzzle flash, spell, smoke, sparks, debris, ... |
 | `unreal-world-building` | building or fixing an Unreal Engine 5 level or open world: World Partition, OFPA, Data Layers, Level Instances, Packed Level Actors, HLOD, landscape s... |
 
-## Status at v0.2
+## Status at v0.2 (unchanged in v0.2.1)
 
 - 10 skills (the lead `unreal-expert` and nine specialists) written from 115 expert videos (77 h) and 82 official documentation pages, each with references and an offline-tested `ue_<domain>.py` module. The lead carries the shared toolkit (`ue_env`, `ue_run`, `ue_remote`, `ue_mcp`, `ue_review`, `ue_audit`, `ue_stat`).
 - Run in Unreal Engine 5.8.3 on macOS (Apple silicon): the MCP recipes of every domain, the in-editor helpers, headless and offscreen editor jobs. Each `SKILL.md` has a status line naming what ran and what did not yet run.
@@ -42,6 +42,6 @@ Update with `git -C ~/unreal-expert-skills pull`. For a cloud agent that only se
 
 ## Version
 
-v0.2, 2026-10-21. Each `SKILL.md` carries `metadata.version: "0.2"` and a visible version line; each script exposes `__version__ = "0.2"`. History in `CHANGELOG.md`; git tag `v0.2`. Mentions of v0.1, v0.2, v1 or v2 inside the references and code comments name earlier drafts; the CHANGELOG explains them.
+v0.2.1, 2026-10-22. Each `SKILL.md` carries `metadata.version: "0.2.1"` and a visible version line; each script exposes `__version__ = "0.2.1"`. History in `CHANGELOG.md`; git tag `v0.2.1`. Mentions of v0.1, v0.2, v1 or v2 inside the references and code comments name earlier drafts; the CHANGELOG explains them.
 
 Paths such as `tests/code/...`, `notes/...`, `sources/...` or `~/Developer/pro/...` inside the skills point to the build project (tests, notes, sources) on the author's machine; they are provenance only.

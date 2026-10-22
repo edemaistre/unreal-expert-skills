@@ -27,7 +27,7 @@ Library:
   M.reachable(m)                    # True only after a real read-only call succeeds
 """
 
-__version__ = "0.2"  # Unreal Engine Expert Skills v0.2
+__version__ = "0.2.1"  # Unreal Engine Expert Skills v0.2.1
 
 import hashlib
 import json

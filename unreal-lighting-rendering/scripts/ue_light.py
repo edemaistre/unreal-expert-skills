@@ -49,7 +49,7 @@ notes/lighting, notes/rendering, notes/post-process; `[added]` marks this toolki
 """
 from __future__ import annotations
 
-__version__ = "0.2"  # Unreal Engine Expert Skills v0.2 (2026-10-21)
+__version__ = "0.2.1"  # Unreal Engine Expert Skills v0.2.1 (2026-10-21)
 
 import colorsys
 import json

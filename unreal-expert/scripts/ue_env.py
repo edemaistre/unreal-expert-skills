@@ -30,7 +30,7 @@ Mac binaries (verify on the installed build, listed in the facts-to-verify check
   uat         Engine/Build/BatchFiles/RunUAT.sh
 """
 
-__version__ = "0.2"  # Unreal Engine Expert Skills v0.2
+__version__ = "0.2.1"  # Unreal Engine Expert Skills v0.2.1
 
 import glob
 import json

@@ -2,13 +2,13 @@
 name: unreal-cinematics
 description: "Use when making a trailer, cutscene, cinematic or short film in Unreal Engine 5.8 with Sequencer: shot lists, master and shot sequences, cameras, lenses, depth of field, camera cuts, spawnables, character animation in shots, per-shot lighting, Movie Render Graph or Movie Render Queue EXR renders, \"render darker than the viewport\", \"first frames pop\", \"last frame missing\", ACES or OCIO to DaVinci Resolve, the 180-degree rule, Sequencer Python or Epic's Unreal MCP (SequencerTools: add_actors returns empty, a camera path that plays only half the keyed distance, set_camera_cut_binding fails, eased camera moves that keep facing a point), or reviewing a cut."
 metadata:
-  version: "0.2"
-  date: "2026-10-21"
+  version: "0.2.1"
+  date: "2026-10-22"
 ---
 
 # Cinematics in Unreal Engine 5.8 (Sequencer and Movie Render Graph)
 
-**Version 0.2** (2026-10-21), part of Unreal Engine Expert Skills; checked live on Unreal 5.8.3.
+**Version 0.2.1** (2026-10-22), part of Unreal Engine Expert Skills; checked live on Unreal 5.8.3.
 
 Expert level here means the cut is checked as data before anything is built and a render is judged on its files and frames, not the viewport. The core stance: plan offline, build in one transaction, lock timing against the music before animating, light from approved masters, render per shot through one template graph, hand linear EXRs, an edit and a colour note to the grade.
 

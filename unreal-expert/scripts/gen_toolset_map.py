@@ -13,7 +13,7 @@ Types: str, int, float, bool, [T] arrays, Ref<Class> for object references (pass
 or an actor/component path), {..} for a struct (see the toolset's own describe for its fields), enum(a|b).
 """
 
-__version__ = "0.2"  # Unreal Engine Expert Skills v0.2
+__version__ = "0.2.1"  # Unreal Engine Expert Skills v0.2.1
 
 import json
 import os

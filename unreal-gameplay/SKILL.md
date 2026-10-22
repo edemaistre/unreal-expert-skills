@@ -2,13 +2,13 @@
 name: unreal-gameplay
 description: "Use when building or debugging UE5 gameplay: a character with double jump or dash, abilities with cooldowns, enemy AI that patrols, chases and attacks, a health bar or HUD; Blueprint graphs through Epic's MCP BlueprintTools DSL, UMG widgets, data tables, gameplay tags, Gameplay Effects, StateTree parameters, PIE and automation tests from an agent; choosing Blueprint vs C++, GAS or not, StateTree vs Behavior Tree; Enhanced Input, replication, save games; \"Blueprints are slow\", Tick, casts and hard references; \"ability won't activate\", \"enemy ignores the player\"; or gameplay tests with injected input."
 metadata:
-  version: "0.2"
-  date: "2026-10-21"
+  version: "0.2.1"
+  date: "2026-10-22"
 ---
 
 # Unreal Gameplay (framework, Blueprint vs C++, input, GAS, AI, UI)
 
-**Version 0.2** (2026-10-21), part of Unreal Engine Expert Skills v0.2.
+**Version 0.2.1** (2026-10-22), part of Unreal Engine Expert Skills v0.2.1.
 
 Expert level means every piece of data lives in the class whose lifetime and network presence match it, logic is text (C++, or Blueprint DSL read back after writing) under data-only Blueprints that scripts configure, and every mechanic is proven in isolation (injected input, debug commands, traces) before it is judged in play.
 

@@ -38,7 +38,7 @@ Epic's MCP listener reads the same key, so that change likely exposes MCP too [a
 inference, verify with loopback_only(8000) after any change].
 """
 
-__version__ = "0.2"  # Unreal Engine Expert Skills v0.2
+__version__ = "0.2.1"  # Unreal Engine Expert Skills v0.2.1
 
 import json
 import os

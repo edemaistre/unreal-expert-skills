@@ -23,7 +23,7 @@ Never point a saving job at a project an open editor has loaded (write lock): ru
 action in that editor through the MCP toolset or ue_remote.PythonRemote instead.
 """
 
-__version__ = "0.2"  # Unreal Engine Expert Skills v0.2 (2026-10-21; v0.1 was 2026-09-24)
+__version__ = "0.2.1"  # Unreal Engine Expert Skills v0.2.1 (2026-10-21; v0.1 was 2026-09-24)
 
 import json
 import os

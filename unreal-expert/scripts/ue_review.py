@@ -34,7 +34,7 @@ Command line (headless render of a Level Sequence, legacy Primary Config or save
   build_render_command(engine, uproject, map, sequence, config, resolution=(1920, 1080))
 """
 
-__version__ = "0.2"  # Unreal Engine Expert Skills v0.2 (2026-10-21; v0.1 was 2026-09-24)
+__version__ = "0.2.1"  # Unreal Engine Expert Skills v0.2.1 (2026-10-21; v0.1 was 2026-09-24)
 
 import json
 import math

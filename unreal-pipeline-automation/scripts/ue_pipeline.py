@@ -54,7 +54,7 @@ Jobs inside Unreal: scripts/ue_pipeline_job.py (through ue_run.run_python) and
 scripts/ue_contact_sheet_job.py (mode="latent").
 """
 
-__version__ = "0.2"  # Unreal Engine Expert Skills v0.2 (2026-10-21; v0.1 was 2026-09-24; includes the refactor after the U8 grade)
+__version__ = "0.2.1"  # Unreal Engine Expert Skills v0.2.1 (2026-10-21; v0.1 was 2026-09-24; includes the refactor after the U8 grade)
 
 import csv
 import hashlib

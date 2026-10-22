@@ -1,14 +1,14 @@
 ---
 name: unreal-pipeline-automation
-description: "Use when importing FBX, USD, OBJ or glTF from Maya, ZBrush, Blender or an AI generator (such as Scenario MCP) into Unreal Engine 5.8, in bulk or as changed files; importing generated PNG maps, HDR or EXR skies and audio; writing Editor Python tools, Interchange pipelines or import presets; naming conventions; material instances by script; Nanite, collision and LODs per asset class; data validators or automation tests; redirectors; cooking and packaging from the command line (BuildCookRun, RunUAT, CI, Perforce). Also when a scripted import ignores its settings or names, a GLB splits into several meshes, a sky imports as a normal map, StaticMeshTools refuses a .glb, a commandlet returns -1 for LODs or collision, a Python validator never runs, or a Mac build will not package."
+description: "Use when importing FBX, USD, OBJ or glTF from Maya, ZBrush, Blender or an AI generator (Scenario MCP, the Scenario for Unreal plugin) into Unreal Engine 5.8, in bulk or as changed files; importing generated PNG maps, HDR or EXR skies and audio; writing Editor Python tools, Interchange pipelines or import presets; naming conventions; material instances by script; Nanite, collision and LODs per asset class; data validators or automation tests; redirectors; cooking and packaging from the command line (BuildCookRun, RunUAT, CI, Perforce). Also when a scripted import ignores its settings or names, a GLB splits into several meshes, a sky imports as a normal map, StaticMeshTools refuses a .glb, a commandlet returns -1 for LODs or collision, a Python validator never runs, or a Mac build will not package."
 metadata:
-  version: "0.2"
-  date: "2026-10-21"
+  version: "0.2.1"
+  date: "2026-10-22"
 ---
 
 # Unreal pipeline automation (pipeline and tools TD)
 
-**Version 0.2** (2026-10-21), part of Unreal Engine Expert Skills v0.2.
+**Version 0.2.1** (2026-10-22), part of Unreal Engine Expert Skills v0.2.1.
 
 Expert pipeline work in Unreal is policy as data plus proof: the import policy is a versioned pipeline asset, names come from a plan, every rule that matters is a validator that also guards human edits, and a build counts once it cooked with fatal validation and booted. Bulk work runs headless; anything visual goes to a screenshot someone actually looks at.
 

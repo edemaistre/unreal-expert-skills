@@ -71,7 +71,7 @@ log_path, log (scan_log summary: errors, warnings, python_errors, fatal, summary
 log_tail. ok is True only if this job's boot reported ok and the run did not time out.
 """
 
-__version__ = "0.2"  # Unreal Engine Expert Skills v0.2 (2026-10-21; v0.1 was 2026-09-24); refactor pass: job-bound UE_RESULT,
+__version__ = "0.2.1"  # Unreal Engine Expert Skills v0.2.1 (2026-10-21; v0.1 was 2026-09-24); refactor pass: job-bound UE_RESULT,
 #                      registry wait recorded, -ScriptErrorsAreFatal, write-lock check, strict
 
 import inspect

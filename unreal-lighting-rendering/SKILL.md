@@ -2,13 +2,13 @@
 name: unreal-lighting-rendering
 description: "Use when lighting or rendering in Unreal Engine 5.8: physical light units and exposure (EV100, lux, lumens), a sun, sunset or dusk rig, Lumen GI and reflections, MegaLights, virtual shadow maps, sky, fog and clouds, a generated or HDRI sky as sky light cubemap, post process and color grading, the path tracer, or Movie Render Graph stills, by Python or through Epic's MCP toolsets. Triggers: \"the frame is white\" or black, \"exposure does not match the sun\", \"Lumen is noisy\", \"MegaLights noise\", \"the interior is too dark\", \"light leaks\", neon signs, \"fireflies\", \"path tracer vs Lumen\", \"render a still\", EXR settings. Also when a light property set through MCP fails or reads back wrong, a cvar name is unsure, or a frame must be measured rather than eyeballed."
 metadata:
-  version: "0.2"
-  date: "2026-10-21"
+  version: "0.2.1"
+  date: "2026-10-22"
 ---
 
 # Lighting and rendering in Unreal Engine 5.8
 
-**Version 0.2** (2026-10-21), part of Unreal Engine Expert Skills v0.2.
+**Version 0.2.1** (2026-10-22), part of Unreal Engine Expert Skills v0.2.1.
 
 Expert lighting in Unreal is a calibrated camera, physical light values, and a renderer that sees the same scene you do; everything else is art direction layered on top and listed as such. Each step is proved with a representation view and a number before the lit image is trusted; noise is fixed in the system that owns it.
 

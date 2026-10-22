@@ -23,7 +23,7 @@ then restart the editor (init_unreal.py runs at startup; a running editor does n
 Call: call_tool(toolset_name="agent.AgentPythonToolset", tool_name="run_python", arguments={"code": ...}).
 """
 
-__version__ = "0.2"
+__version__ = "0.2.1"
 import contextlib
 import io
 import traceback

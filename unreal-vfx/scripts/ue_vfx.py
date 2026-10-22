@@ -45,7 +45,7 @@ import math
 import os
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
-__version__ = "0.2"  # Unreal Engine Expert Skills v0.2 (2026-10-21), run on 5.8.3
+__version__ = "0.2.1"  # Unreal Engine Expert Skills v0.2.1 (2026-10-21), run on 5.8.3
 
 # =============================================================================================
 # 1. OFFLINE LAYER: constants

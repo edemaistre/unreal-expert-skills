@@ -24,7 +24,7 @@ with the feel targets the user gives; they are not expert numbers.
 """
 from __future__ import annotations
 
-__version__ = "0.2"  # Unreal Engine Expert Skills v0.2 (2026-10-21)
+__version__ = "0.2.1"  # Unreal Engine Expert Skills v0.2.1 (2026-10-21)
 
 FEATURES = ("tags", "health", "character", "controller", "hero", "enemy", "dash", "melee",
             "ai", "statetree", "widget")

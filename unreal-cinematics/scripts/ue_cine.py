@@ -52,7 +52,7 @@ JT = mAMp6qCt7kc (Toonen), WF = 2Q3CybANHKE / fVg5ihB8Wdc (Faucher), VP = 5SJA1F
 [added] marks values that no source states (conventions of this toolkit; calibrate).
 """
 
-__version__ = "0.2"  # Unreal Engine Expert Skills v0.2 (2026-10-21), run on 5.8.3
+__version__ = "0.2.1"  # Unreal Engine Expert Skills v0.2.1 (2026-10-21), run on 5.8.3
 
 import contextlib
 import copy
